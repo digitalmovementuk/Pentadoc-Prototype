@@ -43,8 +43,8 @@ export function Navbar() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'border-b border-ink/10 bg-white/90 shadow-sm backdrop-blur-md'
-            : 'bg-transparent'
+            ? 'border-b border-ink/10 bg-white/95 shadow-sm backdrop-blur-md'
+            : 'border-b border-ink/10 bg-white/[0.92] backdrop-blur-sm'
         }`}
       >
         <nav
@@ -59,7 +59,7 @@ export function Navbar() {
             {navLinks.map((link) => (
               <a
                 key={link.href}
-                className={`nav-link ${isScrolled ? 'text-ink' : 'text-white'}`}
+                className="nav-link text-ink-muted hover:text-ink"
                 href={link.href}
               >
                 {link.label}
@@ -69,9 +69,7 @@ export function Navbar() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <a
-              className={`focus-ring rounded-md px-3 py-2 text-sm font-semibold leading-5 ${
-                isScrolled ? 'text-ink' : 'text-white'
-              }`}
+              className="focus-ring rounded-md px-3 py-2 text-sm font-semibold leading-5 text-ink-muted hover:text-ink"
               href="tel:+4993126079110"
             >
               +49 931 2607911-0
@@ -83,7 +81,7 @@ export function Navbar() {
 
           <button
             className={`focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-md lg:hidden ${
-              isScrolled ? 'bg-white text-ink' : 'bg-white/[0.12] text-white backdrop-blur-sm'
+              isScrolled ? 'bg-white text-ink' : 'bg-porcelain text-ink'
             }`}
             type="button"
             aria-label="Open navigation menu"

@@ -37,7 +37,7 @@ function App() {
               fetchPriority="high"
             />
           </div>
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(110deg,rgba(4,24,44,0.94)_0%,rgba(4,24,44,0.84)_48%,rgba(4,24,44,0.46)_100%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(110deg,rgba(20,22,23,0.94)_0%,rgba(33,41,52,0.86)_48%,rgba(86,86,87,0.48)_100%)]" />
 
           <div className="mx-auto grid min-h-[860px] max-w-7xl items-center gap-10 px-4 pb-16 pt-28 sm:px-6 lg:grid-cols-[1.02fr_0.78fr] lg:px-8 lg:pt-32">
             <Reveal>
@@ -184,7 +184,7 @@ function App() {
               {processSteps.map((step, index) => (
                 <Reveal key={step.title} delay={index * 0.05}>
                   <article className="relative rounded-lg border border-ink/10 bg-white p-6 shadow-sm">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-md bg-brand-blue text-sm font-bold leading-5 text-white">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-md bg-brand-mint text-sm font-bold leading-5 text-ink">
                       {index + 1}
                     </span>
                     <h3 className="mt-6 text-xl font-semibold leading-7">{step.title}</h3>

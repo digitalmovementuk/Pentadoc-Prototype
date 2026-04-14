@@ -71,19 +71,19 @@
   }
 
   .nav-link {
-    @apply focus-ring min-h-11 rounded-md px-3 py-3 text-sm font-semibold leading-5 transition hover:bg-white/[0.12];
+    @apply focus-ring min-h-11 rounded-md px-3 py-3 text-sm font-semibold leading-5 transition hover:bg-brand-mint/20;
   }
 
   .btn-primary {
-    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-brand-coral px-5 py-3 text-center text-sm font-bold leading-5 text-white shadow-sm transition hover:bg-brand-coral-dark;
+    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md border-2 border-brand-mint bg-white px-5 py-3 text-center text-sm font-bold leading-5 text-ink-muted shadow-sm transition hover:bg-brand-mint hover:text-ink;
   }
 
   .btn-secondary-on-dark {
-    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-white/[0.28] bg-white/10 px-5 py-3 text-center text-sm font-bold leading-5 text-white transition hover:bg-white/[0.18];
+    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md border-2 border-brand-mint bg-transparent px-5 py-3 text-center text-sm font-bold leading-5 text-white transition hover:bg-brand-mint hover:text-ink;
   }
 
   .btn-dark {
-    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-ink px-6 py-3 text-center text-sm font-bold leading-5 text-white transition hover:bg-ink-soft;
+    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md border-2 border-ink bg-white px-6 py-3 text-center text-sm font-bold leading-5 text-ink-muted transition hover:bg-ink hover:text-white;
   }
 
   .eyebrow {
@@ -99,7 +99,7 @@
   }
 
   .service-card {
-    @apply flex h-full min-h-[360px] flex-col rounded-lg border border-ink/10 bg-porcelain p-6 shadow-sm transition hover:-translate-y-1 hover:border-brand-blue/30 hover:shadow-lg;
+    @apply flex h-full min-h-[360px] flex-col rounded-lg border border-ink/10 bg-porcelain p-6 shadow-sm transition hover:-translate-y-1 hover:border-brand-mint hover:shadow-lg;
   }
 
   .form-label {

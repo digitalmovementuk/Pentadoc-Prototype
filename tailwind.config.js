@@ -5,16 +5,16 @@ export default {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#04182c',
-          soft: '#0b2947',
-          muted: '#536273',
+          DEFAULT: '#141617',
+          soft: '#212934',
+          muted: '#565657',
         },
-        porcelain: '#f4f7f6',
+        porcelain: '#f4f4f4',
         brand: {
-          blue: '#1467b3',
-          mint: '#b8eadf',
-          coral: '#c64a31',
-          'coral-dark': '#9f321f',
+          blue: '#0056a7',
+          mint: '#f6ce46',
+          coral: '#f6ce46',
+          'coral-dark': '#e7ba28',
         },
       },
       boxShadow: {
