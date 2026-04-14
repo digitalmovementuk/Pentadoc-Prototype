@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: #f4f7f6;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    overflow-x: hidden;
+  }
+
+  #root {
+    overflow-x: clip;
+  }
+
+  body,
+  button,
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: #b8eadf;
+    color: #04182c;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply fixed left-4 top-3 z-[80] -translate-y-20 rounded-md bg-white px-4 py-3 text-sm font-semibold leading-5 text-ink shadow-lg transition focus:translate-y-0 focus:outline-none focus:ring-4 focus:ring-brand-mint;
+  }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-mint focus-visible:ring-offset-2 focus-visible:ring-offset-white;
+  }
+
+  .nav-link {
+    @apply focus-ring min-h-11 rounded-md px-3 py-3 text-sm font-semibold leading-5 transition hover:bg-white/[0.12];
+  }
+
+  .btn-primary {
+    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-brand-coral px-5 py-3 text-center text-sm font-bold leading-5 text-white shadow-sm transition hover:bg-brand-coral-dark;
+  }
+
+  .btn-secondary-on-dark {
+    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-white/[0.28] bg-white/10 px-5 py-3 text-center text-sm font-bold leading-5 text-white transition hover:bg-white/[0.18];
+  }
+
+  .btn-dark {
+    @apply focus-ring inline-flex min-h-11 items-center justify-center rounded-md bg-ink px-6 py-3 text-center text-sm font-bold leading-5 text-white transition hover:bg-ink-soft;
+  }
+
+  .eyebrow {
+    @apply text-sm font-bold uppercase leading-5 tracking-[0.13em];
+  }
+
+  .section {
+    @apply py-20 sm:py-24 lg:py-28;
+  }
+
+  .section-title {
+    @apply max-w-full break-words text-3xl font-semibold leading-[1.13] tracking-tight text-ink sm:text-4xl lg:text-5xl;
+  }
+
+  .service-card {
+    @apply flex h-full min-h-[360px] flex-col rounded-lg border border-ink/10 bg-porcelain p-6 shadow-sm transition hover:-translate-y-1 hover:border-brand-blue/30 hover:shadow-lg;
+  }
+
+  .form-label {
+    @apply mb-2 block text-sm font-semibold leading-5 text-ink;
+  }
+
+  .form-field {
+    @apply min-h-11 w-full rounded-md border border-ink/20 bg-white px-3 py-3 text-base leading-6 text-ink outline-none transition placeholder:text-ink-muted/70 focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/[0.18];
+  }
+
+  .contact-link {
+    @apply focus-ring flex min-h-11 items-center gap-3 rounded-md text-white transition hover:text-brand-mint;
+  }
+
+  .footer-heading {
+    @apply text-sm font-bold uppercase leading-5 tracking-[0.12em] text-ink;
+  }
+
+  .footer-list {
+    @apply mt-4 grid gap-2 text-sm leading-6 text-ink-muted;
+  }
+
+  .footer-list a {
+    @apply focus-ring inline-flex min-h-8 items-center rounded-md transition hover:text-brand-blue;
+  }
+}
