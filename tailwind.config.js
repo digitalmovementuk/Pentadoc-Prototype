@@ -5,20 +5,25 @@ export default {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#141617',
-          soft: '#212934',
-          muted: '#565657',
+          DEFAULT: '#141414',
+          soft: '#222326',
+          muted: '#4f5056',
         },
+        graphite: '#626269',
+        fog: '#f6f5f1',
         porcelain: '#f4f4f4',
+        line: '#dedbd2',
         brand: {
-          blue: '#0056a7',
-          mint: '#f6ce46',
-          coral: '#f6ce46',
-          'coral-dark': '#e7ba28',
+          yellow: '#ffcc00',
+          soft: '#fff4c7',
+          grey: '#626269',
+          amber: '#f1b900',
         },
       },
       boxShadow: {
         soft: '0 22px 70px rgba(4, 24, 44, 0.12)',
+        nav: '0 18px 70px rgba(0, 0, 0, 0.10)',
+        form: '0 30px 90px rgba(0, 0, 0, 0.22)',
       },
     },
   },
