@@ -1,6 +1,6 @@
 import { ArrowRight, CheckCircle2, Loader2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { contactTopics } from '../content'
+import { useT } from '../lib/i18n'
 
 type FormStatus = 'idle' | 'sending' | 'success' | 'fallback' | 'error'
 
@@ -11,24 +11,17 @@ type ContactFormProps = {
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/alex@digitalmovement.uk'
 
 export function ContactForm({ compact = false }: ContactFormProps) {
+  const t = useT()
+  const f = t.contactForm
   const [status, setStatus] = useState<FormStatus>('idle')
   const formId = compact ? 'kontakt' : 'hero'
 
   const statusText = useMemo(() => {
-    if (status === 'success') {
-      return 'Danke. Ihre Anfrage wurde gesendet. Wir melden uns zeitnah.'
-    }
-
-    if (status === 'fallback') {
-      return 'Das Formular konnte nicht direkt senden. Ihr E-Mail-Programm wurde als Ausweichweg geöffnet.'
-    }
-
-    if (status === 'error') {
-      return 'Die Anfrage konnte gerade nicht gesendet werden. Bitte versuchen Sie es erneut oder nutzen Sie die E-Mail-Adresse im Footer.'
-    }
-
+    if (status === 'success') return f.statusSuccess
+    if (status === 'fallback') return f.statusFallback
+    if (status === 'error') return f.statusError
     return null
-  }, [status])
+  }, [status, f])
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -40,7 +33,7 @@ export function ContactForm({ compact = false }: ContactFormProps) {
       return
     }
 
-    formData.set('_subject', 'Neue Pentadoc Homepage Anfrage')
+    formData.set('_subject', f.mailSubject)
     formData.set('_template', 'table')
     formData.set('_captcha', 'false')
     formData.set('Quelle', window.location.href)
@@ -50,9 +43,7 @@ export function ContactForm({ compact = false }: ContactFormProps) {
     try {
       const response = await fetch(FORM_ENDPOINT, {
         method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
+        headers: { Accept: 'application/json' },
         body: formData,
       })
 
@@ -70,11 +61,11 @@ export function ContactForm({ compact = false }: ContactFormProps) {
       const topic = String(formData.get('Thema') || '')
       const message = String(formData.get('Nachricht') || '')
       const body = encodeURIComponent(
-        `Neue Pentadoc Anfrage\n\nName: ${name}\nUnternehmen: ${company}\nE-Mail: ${email}\nTelefon: ${phone}\nThema: ${topic}\n\nNachricht:\n${message}`,
+        `${f.mailSubject}\n\nName: ${name}\nCompany: ${company}\nEmail: ${email}\nPhone: ${phone}\nTopic: ${topic}\n\nMessage:\n${message}`,
       )
 
       window.location.href = `mailto:alex@digitalmovement.uk?subject=${encodeURIComponent(
-        'Neue Pentadoc Homepage Anfrage',
+        f.mailSubject,
       )}&body=${body}`
       setStatus('fallback')
     }
@@ -84,14 +75,14 @@ export function ContactForm({ compact = false }: ContactFormProps) {
     <form
       className={compact ? 'form-card form-card-compact' : 'form-card'}
       data-testid={compact ? 'contact-form' : 'hero-form'}
-      aria-label={compact ? 'Kontaktformular' : 'Kontaktformular im Hero'}
+      aria-label={compact ? f.aria : f.ariaHero}
       onSubmit={handleSubmit}
     >
-      <input type="hidden" name="_subject" value="Neue Pentadoc Homepage Anfrage" />
+      <input type="hidden" name="_subject" value={f.mailSubject} />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="_captcha" value="false" />
       <label className="sr-only" htmlFor={`${formId}-honey`}>
-        Dieses Feld leer lassen
+        {f.honeypotLabel}
       </label>
       <input
         className="hidden"
@@ -102,20 +93,18 @@ export function ContactForm({ compact = false }: ContactFormProps) {
       />
 
       <div className="form-card-header">
-        <p className="section-kicker text-brand-grey">Erstgespräch anfragen</p>
+        <p className="section-kicker text-brand-grey">{f.headerKicker}</p>
         <h2 className="mt-2 text-2xl font-semibold leading-8 text-ink sm:text-3xl">
-          In 30 Sekunden zur passenden Einordnung.
+          {f.headerTitle}
         </h2>
-        <p className="mt-3 text-sm leading-6 text-graphite">
-          Kurz schildern, worum es geht. Die Anfrage wird direkt an das zuständige Projektpostfach gesendet.
-        </p>
+        <p className="mt-3 text-sm leading-6 text-graphite">{f.headerSubtitle}</p>
       </div>
 
       <div className="mt-6 grid gap-4">
         <div className="field-grid">
           <div>
             <label className="form-label" htmlFor={`${formId}-name`}>
-              Name
+              {f.nameLabel}
             </label>
             <input
               className="form-field"
@@ -128,7 +117,7 @@ export function ContactForm({ compact = false }: ContactFormProps) {
           </div>
           <div>
             <label className="form-label" htmlFor={`${formId}-company`}>
-              Unternehmen
+              {f.companyLabel}
             </label>
             <input
               className="form-field"
@@ -144,7 +133,7 @@ export function ContactForm({ compact = false }: ContactFormProps) {
         <div className="field-grid">
           <div>
             <label className="form-label" htmlFor={`${formId}-email`}>
-              E-Mail
+              {f.emailLabel}
             </label>
             <input
               className="form-field"
@@ -157,7 +146,7 @@ export function ContactForm({ compact = false }: ContactFormProps) {
           </div>
           <div>
             <label className="form-label" htmlFor={`${formId}-phone`}>
-              Telefon
+              {f.phoneLabel}
             </label>
             <input
               className="form-field"
@@ -171,13 +160,13 @@ export function ContactForm({ compact = false }: ContactFormProps) {
 
         <div>
           <label className="form-label" htmlFor={`${formId}-topic`}>
-            Thema
+            {f.topicLabel}
           </label>
           <select className="form-field" id={`${formId}-topic`} name="Thema" defaultValue="" required>
             <option value="" disabled>
-              Bitte auswählen
+              {f.topicPlaceholder}
             </option>
-            {contactTopics.map((topic) => (
+            {f.topics.map((topic) => (
               <option key={topic} value={topic}>
                 {topic}
               </option>
@@ -187,13 +176,13 @@ export function ContactForm({ compact = false }: ContactFormProps) {
 
         <div>
           <label className="form-label" htmlFor={`${formId}-message`}>
-            Kurz zur Ausgangslage
+            {f.messageLabel}
           </label>
           <textarea
             className="form-field min-h-28 resize-y"
             id={`${formId}-message`}
             name="Nachricht"
-            placeholder="Welche Kanäle, Systeme oder Prozesse sollen geklärt werden?"
+            placeholder={f.messagePlaceholder}
             required
           />
         </div>
@@ -203,11 +192,11 @@ export function ContactForm({ compact = false }: ContactFormProps) {
         {status === 'sending' ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-            Wird gesendet
+            {f.submitting}
           </>
         ) : (
           <>
-            Anfrage senden
+            {f.submit}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </>
         )}

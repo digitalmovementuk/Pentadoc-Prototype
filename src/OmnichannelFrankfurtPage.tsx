@@ -2,17 +2,11 @@ import {
   ArrowRight,
   Building2,
   CheckCircle2,
-  FileStack,
-  GitBranch,
-  Layers3,
   MapPin,
   MessageSquareText,
-  Network,
   Phone,
-  Route,
   Search,
   ShieldCheck,
-  Workflow,
 } from 'lucide-react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { useEffect, useRef } from 'react'
@@ -26,222 +20,52 @@ import seoFirstCallImage from './assets/images/seo-first-call.jpg'
 import seoOmnichannelStrategyImage from './assets/images/seo-omnichannel-strategy.jpg'
 import seoServiceOperationsImage from './assets/images/seo-service-operations.jpg'
 import { ContactForm } from './components/ContactForm'
+import { LanguagePicker } from './components/LanguagePicker'
 import { Reveal } from './components/Reveal'
 import { StickyCTA } from './components/StickyCTA'
-import { contact, navLinks, proofStats, referenceNames } from './content'
+import {
+  contact,
+  referenceNames,
+  seoReadinessIcons,
+  seoWhyIcons,
+} from './content'
+import { useLang, useT } from './lib/i18n'
+import type { PresentationMarkerCopy } from './lib/translations'
 
 const pageUrl = 'https://digitalmovementuk.github.io/Pentadoc-Prototype/omnichannel-kundenservice-frankfurt/'
-const pageTitle = 'Omnichannel Kundenservice Frankfurt | Pentadoc AG'
-const pageDescription =
-  'Omnichannel Kundenservice Beratung in Frankfurt für Versicherer und Krankenkassen: Kanäle, Anliegen, Prozesse, CCM, Input Management und IT-Roadmap sauber verbinden.'
 const pageImage = 'https://digitalmovementuk.github.io/Pentadoc-Prototype/og-omnichannel-frankfurt.png'
 
 type PresentationMarkerProps = {
-  eyebrow: string
+  copy: PresentationMarkerCopy
   number: string
-  title: string
-  subtitle: string
-  relevance: string
-  points: string[]
   tone?: 'light' | 'dark'
   pointer?: 'left' | 'right' | 'top'
+  relevanceLabel: string
 }
-
-const readinessCards = [
-  {
-    label: 'Eingänge',
-    text: 'Post, E-Mail, Portal, Telefon und App werden als ein steuerbarer Eingang betrachtet.',
-    icon: FileStack,
-  },
-  {
-    label: 'Anliegen',
-    text: 'Kundenanliegen werden erkannt, priorisiert und an die richtige Bearbeitung übergeben.',
-    icon: MessageSquareText,
-  },
-  {
-    label: 'Kommunikation',
-    text: 'Antworten, Dokumente und Statusmeldungen folgen einer konsistenten Logik.',
-    icon: Layers3,
-  },
-  {
-    label: 'Betrieb',
-    text: 'Prozesse, Rollen, Systeme und Kennzahlen werden im Alltag handhabbar.',
-    icon: Workflow,
-  },
-]
-
-const intentCards = [
-  {
-    label: 'Ausgangslage',
-    title: 'Omnichannel Kundenservice Frankfurt',
-    text: 'Viele Serviceorganisationen wollen Kanäle, Anliegen, Dokumente, Kommunikation und IT so verbinden, dass Kunden nicht mehrfach von vorne beginnen müssen.',
-  },
-  {
-    label: 'Direkte Antwort',
-    title: 'Definition zuerst, Details danach',
-    text: 'Der Einstieg erklärt sofort, was Omnichannel Kundenservice Beratung bedeutet und für wen sie relevant ist. Danach folgen Standortbezug, Vorgehen, Fachfragen und Kontaktweg.',
-  },
-  {
-    label: 'Nächster Schritt',
-    title: 'Vom Problem zur Anfrage',
-    text: 'Die Seite führt von typischen Servicebrüchen über ein klares Zielbild zu einem Erstgespräch, in dem Prioritäten und nächste Entscheidungen sauber eingegrenzt werden.',
-  },
-]
-
-const painPoints = [
-  {
-    title: 'Viele Kanäle, aber kein gemeinsames Bild',
-    text: 'Ein Kunde ruft an, sendet danach Unterlagen per E-Mail und erhält später ein Schreiben. Ohne gemeinsame Sicht entstehen doppelte Arbeit, Rückfragen und widersprüchliche Auskünfte.',
-  },
-  {
-    title: 'Automatisierung greift zu kurz',
-    text: 'OCR, Workflow und Portale helfen nur dann, wenn Anliegenlogik, Fachregeln und Bearbeitung sauber zusammenspielen. Einzelne Tools ersetzen kein tragfähiges Betriebsmodell.',
-  },
-  {
-    title: 'CCM und Input Management laufen getrennt',
-    text: 'Eingehende Dokumente und ausgehende Kommunikation werden häufig separat optimiert. Der Kundendialog bleibt dadurch brüchig, obwohl beide Seiten fachlich zusammengehören.',
-  },
-]
-
-const approachSteps = [
-  {
-    title: 'Frankfurter Ausgangslage sortieren',
-    text: 'Welche Kundengruppen, Eingangskanäle, Fachprozesse, Standorte, Dienstleister und Systeme prägen den heutigen Kundenservice?',
-  },
-  {
-    title: 'Zielbild für Omnichannel entwickeln',
-    text: 'Welche Kanäle sollen führen, welche Informationen müssen sofort sichtbar sein und welche Entscheidungen brauchen Fachbereich, IT und Management?',
-  },
-  {
-    title: 'Roadmap und Architektur klären',
-    text: 'Welche Schritte bringen schnell Wirkung, welche Migrationen sind kritisch und welche Abhängigkeiten müssen vor einer Ausschreibung entschieden werden?',
-  },
-  {
-    title: 'Umsetzung steuerbar machen',
-    text: 'Wie werden Rollen, KPIs, Betriebsprozesse und Kommunikation so verankert, dass Omnichannel nicht nur als Konzept, sondern im Tagesgeschäft funktioniert?',
-  },
-]
-
-const questionClusters = [
-  {
-    title: 'Strategische Fragen',
-    questions: [
-      'Welche Rolle soll Omnichannel im Kundenservice-Zielbild spielen?',
-      'Welche Kanäle sind für Frankfurt und Rhein-Main geschäftlich wirklich relevant?',
-      'Welche Entscheidungen brauchen Vorstand, Fachbereich und IT zuerst?',
-    ],
-  },
-  {
-    title: 'Operative Fragen',
-    questions: [
-      'Welche Anliegen bleiben heute zwischen Telefon, Portal, E-Mail und Dokumenten hängen?',
-      'Wo entstehen Rückfragen, Liegezeiten oder doppelte Bearbeitung?',
-      'Welche Informationen brauchen Mitarbeitende beim ersten Kontakt?',
-    ],
-  },
-  {
-    title: 'Technische Fragen',
-    questions: [
-      'Welche Systeme müssen Kundendaten, Dokumente und Statusinformationen teilen?',
-      'Welche Rolle spielen Input Management, CCM und Workflow-Automation?',
-      'Welche Migrationen oder Schnittstellen bestimmen die Roadmap?',
-    ],
-  },
-]
-
-const seoSections = [
-  {
-    kicker: 'Ausgangslage',
-    title: 'Was Unternehmen vor einem Omnichannel-Projekt klären müssen',
-    body: [
-      'Versicherer, Krankenkassen und Finanzdienstleister suchen selten nur eine neue Software. Meist steht dahinter eine konkrete Frage im Betrieb: Wie lassen sich Anruf, Brief, E-Mail, Portal, Chat, App und ausgehende Kommunikation so verbinden, dass Kunden nicht jedes Mal von vorne anfangen müssen? Im Rhein-Main-Gebiet ist diese Frage besonders wichtig, weil viele Produkte erklärungsbedürftig sind, Unterlagen rechtssicher verarbeitet werden müssen und Serviceprozesse häufig über mehrere Fachbereiche laufen.',
-      'Ein guter Omnichannel-Ansatz beginnt deshalb nicht beim Kanal. Er beginnt beim Anliegen. Welche Information kommt an? Was will die versicherte Person erreichen? Welche Nachweise fehlen? Welche Antwort ist fachlich, technisch und regulatorisch möglich? Erst wenn diese Fragen sauber beantwortet werden, können Portale, Contact Center, Dokumentenprozesse, Customer Communication Management und Workflow-Automation sinnvoll zusammenspielen.',
-      'So entsteht ein belastbares Gespräch über Servicequalität, Bearbeitungslogik, digitale Eingangskanäle und Transformationsprioritäten.',
-    ],
-  },
-  {
-    kicker: 'Frankfurt',
-    title: 'Warum der Standort Frankfurt ein starkes Thema für Omnichannel ist',
-    body: [
-      'Frankfurt ist ein dichter Markt für Versicherungen, Banken, Dienstleister, Beratung, IT und regulierte Geschäftsmodelle. Viele Teams arbeiten mit hohen Fallzahlen, verteilten Zuständigkeiten und gewachsenen Systemlandschaften. Genau hier entsteht der typische Omnichannel-Druck: Kunden erwarten schnelle Rückmeldung, der Betrieb muss wirtschaftlich bleiben und die IT darf nicht durch unklare Anforderungen überlastet werden.',
-      'Für Organisationen in Frankfurt und Rhein-Main zählt eine Beratung, die die Anforderungen eines anspruchsvollen Finanz- und Versicherungsstandorts versteht: hohe Erwartungen an Servicequalität, saubere Dokumentation, nachvollziehbare Entscheidungen und stabile Umsetzung in bestehenden Strukturen.',
-    ],
-  },
-  {
-    kicker: 'Beratung',
-    title: 'Was eine Omnichannel Beratung für Versicherer leisten sollte',
-    body: [
-      'Eine belastbare Beratung für Omnichannel Kundenservice muss die Brücke zwischen Fachbereich, Kundenservice, IT, Prozessmanagement und Kommunikation schlagen. Im ersten Schritt werden die heutigen Kontaktpunkte sichtbar gemacht: Welche Eingangskanäle gibt es? Welche Systeme halten Daten? Welche Dokumente entstehen? Welche Vorgänge bleiben liegen? Welche Auskünfte unterscheiden sich je nach Kanal? Aus diesen Beobachtungen entsteht kein abstraktes Zielbild, sondern ein Entscheidungsmodell.',
-      'Pentadoc betrachtet Omnichannel in diesem Zusammenhang als Teil einer größeren Transformationsaufgabe. Input Management, Anliegenmanagement, Customer Communication Management, IT-Strategie, Migration und Organisation greifen ineinander. Wenn nur ein neuer Kanal ergänzt wird, bleibt der Grundkonflikt bestehen. Wenn aber Anliegen, Daten, Dokumente, Kommunikation und Bearbeitung gemeinsam gedacht werden, entsteht eine realistische Roadmap für besseren Kundenservice.',
-      'Wichtig ist auch die Übersetzung zwischen Managementsprache und Umsetzungsalltag. Vorstände und Bereichsleitungen brauchen Entscheidungsgrundlagen, Teams brauchen klare Prioritäten und die IT braucht Anforderungen, die nicht alle Ausnahmen gleichzeitig lösen sollen. Eine gute Omnichannel Beratung macht diese Ebenen sichtbar. Sie zeigt, welche Maßnahmen Kundenerlebnis und Effizienz verbessern, welche Abhängigkeiten zuerst geklärt werden müssen und welche Themen bewusst später kommen können.',
-    ],
-  },
-  {
-    kicker: 'Umsetzung',
-    title: 'Von der Idee zur Roadmap für Omnichannel Kundenservice',
-    body: [
-      'Der Weg zu einem besseren Omnichannel Kundenservice in Frankfurt beginnt mit einer nüchternen Bestandsaufnahme. Nicht jede Organisation braucht sofort ein großes Transformationsprogramm. Manchmal genügt ein klarer Blick auf die wichtigsten Kundenanliegen, die größten Medienbrüche und die Systeme, die heute Entscheidungen blockieren. Daraus lassen sich Quick Wins, Migrationsbedarfe und strategische Entscheidungen sauber trennen.',
-      'Eine gute Roadmap beantwortet konkrete Fragen. Welche Informationen müssen beim ersten Kontakt verfügbar sein? Wann wird ein Anliegen automatisch erkannt? Wo braucht es menschliche Entscheidung? Welche Ausgabekanäle sind für welche Kundengruppen sinnvoll? Welche Briefe, E-Mails oder Portalnachrichten müssen überarbeitet werden? Welche Dienstleister, Kernsysteme und Fachverfahren müssen angebunden werden? Diese Fragen machen aus Omnichannel ein führbares Programm statt ein Schlagwort.',
-    ],
-  },
-  {
-    kicker: 'Ergebnis',
-    title: 'Woran ein reifer Omnichannel Kundenservice erkennbar ist',
-    body: [
-      'Ein reifer Omnichannel Kundenservice zeigt sich nicht an der Zahl der Kanäle. Er zeigt sich daran, dass Kundenanliegen erkennbar, bearbeitbar und nachvollziehbar sind. Kunden erhalten konsistente Informationen. Mitarbeitende sehen den Kontext. Dokumente und Nachrichten sind nicht losgelöst vom Prozess. Führungskräfte können erkennen, wo Rückstände, Qualitätsthemen oder Automatisierungspotenziale liegen.',
-      'Für Versicherer und Krankenkassen ist diese Reife besonders wertvoll, weil Servicequalität, Effizienz und Vertrauen zusammenhängen. Wenn ein Schaden, eine Mitgliedschaft, ein Leistungsfall oder eine Vertragsänderung über mehrere Kontakte läuft, zählt nicht der einzelne Kanal. Es zählt das durchgängige Erlebnis. Genau dafür braucht es eine Beratung, die Omnichannel, Anliegenmanagement und technische Machbarkeit zusammenbringt.',
-      'Für Unternehmen in Frankfurt bedeutet das: Omnichannel ist kein reines Kanalprojekt, sondern eine Entscheidung darüber, wie Kundenerwartung, regulatorische Sorgfalt und gewachsene Systemlandschaften zusammengebracht werden.',
-    ],
-  },
-]
-
-const faqItems = [
-  {
-    question: 'Ist Omnichannel Kundenservice in Frankfurt ein lokales oder ein fachliches Thema?',
-    answer:
-      'Beides. Frankfurt steht für ein dichtes Finanz- und Versicherungsumfeld, die eigentliche Aufgabe liegt aber in der fachlichen Verbindung von Kanälen, Anliegen, Dokumenten, Kommunikation, IT und Betrieb.',
-  },
-  {
-    question: 'Muss vor einer Omnichannel Beratung bereits eine Software ausgewählt sein?',
-    answer:
-      'Nein. Häufig ist es besser, zuerst Zielbild, Anforderungen, Prozesse und Abhängigkeiten zu klären. Erst danach lässt sich beurteilen, welche Lösung oder Migration sinnvoll ist.',
-  },
-  {
-    question: 'Für welche Organisationen passt diese Seite?',
-    answer:
-      'Vor allem für Versicherer, Krankenkassen und Finanzdienstleister mit hohem Kontaktvolumen, vielen Dokumenten, mehreren Eingangskanälen und komplexer Bearbeitung.',
-  },
-  {
-    question: 'Kann der Einstieg klein starten?',
-    answer:
-      'Ja. Ein strukturierter Erstworkshop kann bereits zeigen, welche Kanäle, Anliegen und Systeme den größten Hebel haben und welche Entscheidungen als Nächstes nötig sind.',
-  },
-]
 
 function setMeta(attribute: 'name' | 'property', key: string, content: string) {
   let element = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${key}"]`)
-
   if (!element) {
     element = document.createElement('meta')
     element.setAttribute(attribute, key)
     document.head.appendChild(element)
   }
-
   element.content = content
 }
 
 function SeoNavigation() {
+  const t = useT()
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
       <nav
         className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-lg border border-white/[0.55] bg-white/[0.90] px-3 shadow-nav backdrop-blur-xl sm:h-[72px] sm:px-5"
-        aria-label="Hauptnavigation"
+        aria-label={t.nav.aria}
       >
         <a className="focus-ring flex min-h-11 items-center rounded-md" href="../">
           <img className="h-8 w-auto sm:h-9" src={logo} alt="Pentadoc AG" width="177" height="48" />
         </a>
         <div className="hidden items-center gap-1 lg:flex">
-          {navLinks.map((link) => (
+          {t.nav.links.map((link) => (
             <a key={link.href} className="nav-link" href={`../${link.href}`}>
               {link.label}
             </a>
@@ -250,10 +74,11 @@ function SeoNavigation() {
         <div className="flex items-center gap-2">
           <a className="hidden nav-phone sm:inline-flex" href="tel:+4993126079110">
             <Phone className="h-4 w-4" aria-hidden="true" />
-            +49 931 2607911-0
+            {t.nav.phoneLabel}
           </a>
+          <LanguagePicker surface="light" compact />
           <a className="btn-primary min-w-[132px]" href="#kontakt">
-            Erstgespräch
+            {t.nav.cta}
           </a>
         </div>
       </nav>
@@ -262,14 +87,15 @@ function SeoNavigation() {
 }
 
 function OmnichannelMap() {
+  const t = useT()
   return (
-    <div className="omni-map" aria-label="Omnichannel Zielbild">
+    <div className="omni-map" aria-label={t.seo.map.title}>
       <div className="omni-map-center">
-        <span>Frankfurt</span>
-        <strong>Omnichannel Kundenservice</strong>
+        <span>{t.seo.map.center.eyebrow}</span>
+        <strong>{t.seo.map.center.title}</strong>
       </div>
-      {readinessCards.map((card, index) => {
-        const Icon = card.icon
+      {t.seo.map.readiness.map((card, index) => {
+        const Icon = seoReadinessIcons[index] ?? seoReadinessIcons[0]
         return (
           <article key={card.label} className={`omni-node omni-node-${index + 1}`}>
             <Icon className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
@@ -283,20 +109,21 @@ function OmnichannelMap() {
 }
 
 function IntentSearchVisual() {
+  const t = useT()
   return (
-    <div className="seo-photo-visual" aria-label="Omnichannel Beratung auf einen Blick">
+    <div className="seo-photo-visual" aria-label={t.seo.intent.title}>
       <img
         src={seoOmnichannelStrategyImage}
-        alt="Beratungsteam entwickelt ein Omnichannel Zielbild in einem Frankfurter Geschäftsumfeld"
+        alt={t.seo.visuals.intent.title}
         width="1570"
         height="1001"
         loading="lazy"
       />
       <div className="channel-system-card">
-        <span>Beratungsfokus</span>
-        <strong>Omnichannel Kundenservice in Frankfurt</strong>
+        <span>{t.seo.visuals.intent.eyebrow}</span>
+        <strong>{t.seo.visuals.intent.title}</strong>
         <div className="channel-chip-grid">
-          {['Service', 'Frankfurt', 'Versicherer', 'Erstgespräch'].map((item) => (
+          {t.seo.visuals.intent.chips.map((item) => (
             <small key={item}>{item}</small>
           ))}
         </div>
@@ -306,20 +133,21 @@ function IntentSearchVisual() {
 }
 
 function ChannelSystemVisual() {
+  const t = useT()
   return (
-    <div className="seo-photo-visual" aria-label="Omnichannel System aus Kanälen und Anliegen">
+    <div className="seo-photo-visual" aria-label={t.seo.solution.visualSrLabel}>
       <img
         src={seoChannelConvergenceImage}
-        alt="Telefon, Brief, digitale Nachrichten und Dokumente werden zu einem Kundenanliegen verbunden"
+        alt={t.seo.visuals.channel.title}
         width="1566"
         height="1004"
         loading="lazy"
       />
       <div className="channel-system-card">
-        <span>Kanalsteuerung</span>
-        <strong>Anliegen als gemeinsamer Nenner</strong>
+        <span>{t.seo.visuals.channel.eyebrow}</span>
+        <strong>{t.seo.visuals.channel.title}</strong>
         <div className="channel-chip-grid">
-          {['Telefon', 'E-Mail', 'Portal', 'App', 'Brief', 'CCM'].map((item) => (
+          {t.seo.visuals.channel.chips.map((item) => (
             <small key={item}>{item}</small>
           ))}
         </div>
@@ -329,39 +157,41 @@ function ChannelSystemVisual() {
 }
 
 function FrankfurtMarketVisual() {
+  const t = useT()
   return (
-    <div className="seo-photo-visual seo-photo-visual-compact" aria-label="Frankfurt und Rhein-Main">
+    <div className="seo-photo-visual seo-photo-visual-compact" aria-label={t.seo.visuals.frankfurt.title}>
       <img
         src={seoServiceOperationsImage}
-        alt="Service Operations Raum für die Steuerung von Omnichannel Kundenservice"
+        alt={t.seo.visuals.frankfurt.title}
         width="1566"
         height="1004"
         loading="lazy"
       />
       <div className="geo-visual-card">
         <MapPin className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
-        <strong>Frankfurt am Main</strong>
-        <span>Beratung für Finanz-, Versicherungs- und Serviceorganisationen im Rhein-Main-Gebiet.</span>
+        <strong>{t.seo.visuals.frankfurt.title}</strong>
+        <span>{t.seo.visuals.frankfurt.body}</span>
       </div>
     </div>
   )
 }
 
 function QuestionArchitectureVisual() {
+  const t = useT()
   return (
-    <div className="seo-photo-visual" aria-label="Entscheiderfragen für ein Omnichannel Projekt">
+    <div className="seo-photo-visual" aria-label={t.seo.questions.title}>
       <img
         src={seoDecisionArchitectureImage}
-        alt="Strukturierte Entscheidungswand mit Strategie, Betrieb und Technologie für ein Omnichannel Projekt"
+        alt={t.seo.visuals.questions.title}
         width="1586"
         height="992"
         loading="lazy"
       />
       <div className="channel-system-card">
-        <span>Entscheiderfragen</span>
-        <strong>Strategie, Betrieb und Technik sauber trennen</strong>
+        <span>{t.seo.visuals.questions.eyebrow}</span>
+        <strong>{t.seo.visuals.questions.title}</strong>
         <div className="channel-chip-grid">
-          {questionClusters.map((cluster) => (
+          {t.seo.questions.clusters.map((cluster) => (
             <small key={cluster.title}>{cluster.title}</small>
           ))}
         </div>
@@ -371,20 +201,21 @@ function QuestionArchitectureVisual() {
 }
 
 function RoadmapVisual() {
+  const t = useT()
   return (
-    <div className="seo-photo-visual" aria-label="Omnichannel Roadmap">
+    <div className="seo-photo-visual" aria-label={t.seo.approach.title}>
       <img
         src={seoFirstCallImage}
-        alt="Vorbereitung einer Omnichannel Roadmap mit Prozessplan, Kalender und nächstem Schritt"
+        alt={t.seo.visuals.roadmap.title}
         width="1566"
         height="1005"
         loading="lazy"
       />
       <div className="channel-system-card">
-        <span>Roadmap</span>
-        <strong>Vom ersten Gespräch zu klaren Umsetzungsschritten</strong>
+        <span>{t.seo.visuals.roadmap.eyebrow}</span>
+        <strong>{t.seo.visuals.roadmap.title}</strong>
         <div className="channel-chip-grid">
-          {approachSteps.slice(0, 3).map((step, index) => (
+          {t.seo.approach.steps.slice(0, 3).map((step, index) => (
             <small key={step.title}>{String(index + 1).padStart(2, '0')}</small>
           ))}
         </div>
@@ -394,21 +225,22 @@ function RoadmapVisual() {
 }
 
 function FaqSearchVisual() {
+  const t = useT()
   return (
-    <div className="seo-photo-visual" aria-label="Häufige Fragen zu Omnichannel Kundenservice">
+    <div className="seo-photo-visual" aria-label={t.seo.faq.title}>
       <img
         src={seoFaqAnswersImage}
-        alt="Geordnete Frage- und Antwortkarten für ein Omnichannel Beratungsgespräch"
+        alt={t.seo.visuals.faq.title}
         width="1563"
         height="1006"
         loading="lazy"
       />
       <div className="channel-system-card">
-        <span>Klare Antworten</span>
-        <strong>Häufige Fragen vor dem ersten Gespräch</strong>
+        <span>{t.seo.visuals.faq.eyebrow}</span>
+        <strong>{t.seo.visuals.faq.title}</strong>
         <div className="channel-chip-grid">
-          {faqItems.slice(0, 3).map((item, index) => (
-            <small key={item.question}>Frage {index + 1}</small>
+          {t.seo.faq.items.slice(0, 3).map((_item, index) => (
+            <small key={index}>{t.seo.visuals.faq.chipPrefix} {index + 1}</small>
           ))}
         </div>
       </div>
@@ -417,14 +249,11 @@ function FaqSearchVisual() {
 }
 
 function PresentationMarker({
-  eyebrow,
+  copy,
   number,
-  title,
-  subtitle,
-  relevance,
-  points,
   tone = 'light',
   pointer = 'left',
+  relevanceLabel,
 }: PresentationMarkerProps) {
   const pointerClass = {
     left: 'presentation-marker-left',
@@ -452,18 +281,18 @@ function PresentationMarker({
       ref={markerRef}
       className={`presentation-marker ${pointerClass} ${tone === 'dark' ? 'presentation-marker-dark' : ''}`}
       style={reduceMotion ? undefined : { opacity, y, scale, filter }}
-      aria-label={`${eyebrow} ${number}`}
+      aria-label={`${copy.eyebrow} ${number}`}
     >
       <span className="presentation-marker-label">
-        {eyebrow} {number}
+        {copy.eyebrow} {number}
       </span>
-      <h3>{title}</h3>
-      <p className="presentation-marker-subtitle">{subtitle}</p>
+      <h3>{copy.title}</h3>
+      <p className="presentation-marker-subtitle">{copy.subtitle}</p>
       <p className="presentation-marker-relevance">
-        <strong>Relevanz für Ranking:</strong> {relevance}
+        <strong>{relevanceLabel}:</strong> {copy.relevance}
       </p>
       <ul>
-        {points.map((point) => (
+        {copy.points.map((point) => (
           <li key={point}>
             <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
             <span>{point}</span>
@@ -475,19 +304,24 @@ function PresentationMarker({
 }
 
 export function OmnichannelFrankfurtPage() {
+  const t = useT()
+  const { lang } = useLang()
+  const relevanceLabel = lang === 'de' ? 'Relevanz für Ranking' : 'SEO relevance'
+
   useEffect(() => {
-    document.title = pageTitle
-    setMeta('name', 'description', pageDescription)
-    setMeta('property', 'og:title', pageTitle)
-    setMeta('property', 'og:description', pageDescription)
+    document.title = t.seoPageTitle
+    setMeta('name', 'description', t.seoPageDescription)
+    setMeta('property', 'og:title', t.seoPageTitle)
+    setMeta('property', 'og:description', t.seoPageDescription)
     setMeta('property', 'og:url', pageUrl)
     setMeta('property', 'og:image', pageImage)
     setMeta('property', 'og:image:width', '1200')
     setMeta('property', 'og:image:height', '630')
     setMeta('property', 'og:image:alt', 'Pentadoc Omnichannel Kundenservice Frankfurt')
-    setMeta('name', 'twitter:title', pageTitle)
-    setMeta('name', 'twitter:description', pageDescription)
+    setMeta('name', 'twitter:title', t.seoPageTitle)
+    setMeta('name', 'twitter:description', t.seoPageDescription)
     setMeta('name', 'twitter:image', pageImage)
+    document.documentElement.lang = lang
 
     const canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]') ?? document.createElement('link')
     canonical.rel = 'canonical'
@@ -500,20 +334,17 @@ export function OmnichannelFrankfurtPage() {
     schema.text = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
-      name: pageTitle,
-      description: pageDescription,
+      name: t.seoPageTitle,
+      description: t.seoPageDescription,
       url: pageUrl,
-      inLanguage: 'de-DE',
-      about: ['Omnichannel Kundenservice', 'Anliegenmanagement', 'Customer Communication Management'],
+      inLanguage: lang === 'de' ? 'de-DE' : 'en-GB',
+      about: ['Omnichannel customer service', 'Case management', 'Customer Communication Management'],
       provider: {
         '@type': 'ProfessionalService',
         name: 'Pentadoc AG',
         url: 'https://pentadoc.com/',
         telephone: '+49 931 2607911-0',
-        areaServed: {
-          '@type': 'City',
-          name: 'Frankfurt am Main',
-        },
+        areaServed: { '@type': 'City', name: 'Frankfurt am Main' },
         address: {
           '@type': 'PostalAddress',
           streetAddress: 'Beethovenstraße 1a',
@@ -528,7 +359,7 @@ export function OmnichannelFrankfurtPage() {
     return () => {
       schema.remove()
     }
-  }, [])
+  }, [t, lang])
 
   return (
     <div id="top" className="min-h-screen bg-fog text-ink">
@@ -543,36 +374,27 @@ export function OmnichannelFrankfurtPage() {
 
           <div className="seo-hero-shell">
             <Reveal className="seo-hero-copy">
-              <p className="section-kicker text-brand-yellow">Omnichannel Kundenservice Frankfurt</p>
+              <p className="section-kicker text-brand-yellow">{t.seo.hero.kicker}</p>
               <h1 id="seo-hero-title" className="seo-hero-title">
-                Omnichannel Kundenservice Frankfurt für Versicherer und Krankenkassen.
+                {t.seo.hero.title}
               </h1>
-              <p className="seo-hero-lead">
-                Herstellerunabhängige Beratung für Teams, die Kanäle, Anliegen, Dokumente,
-                Kommunikation und IT im Rhein-Main-Gebiet zu einem steuerbaren Kundenerlebnis verbinden wollen.
-              </p>
+              <p className="seo-hero-lead">{t.seo.hero.lead}</p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-start">
                 <a className="btn-primary" href="#kontakt">
-                  Omnichannel Erstgespräch
+                  {t.seo.hero.primaryCta}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <a className="btn-secondary-on-dark" href="#loesung">
-                  Lösung ansehen
+                  {t.seo.hero.secondaryCta}
                 </a>
               </div>
-              <ul className="seo-hero-checks" aria-label="Thematische Schwerpunkte">
-                <li>
-                  <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
-                  Input Management, Anliegenmanagement und CCM zusammen denken
-                </li>
-                <li>
-                  <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
-                  Speziell für Versicherer, Krankenkassen und Finanzdienstleister
-                </li>
-                <li>
-                  <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
-                  Frankfurt und Rhein-Main als regionale Service- und Entscheidungsräume
-                </li>
+              <ul className="seo-hero-checks" aria-label={t.seo.hero.kicker}>
+                {t.seo.hero.checks.map((check) => (
+                  <li key={check}>
+                    <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
+                    {check}
+                  </li>
+                ))}
               </ul>
             </Reveal>
 
@@ -580,50 +402,34 @@ export function OmnichannelFrankfurtPage() {
               <div className="seo-panel-top">
                 <Search className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
                 <div>
-                  <span>Worum es geht</span>
-                  <strong>Omnichannel Kundenservice in Frankfurt</strong>
+                  <span>{t.seo.hero.panel.topLabel}</span>
+                  <strong>{t.seo.hero.panel.topValue}</strong>
                 </div>
               </div>
               <div className="seo-panel-metrics">
-                <div>
-                  <span>Service</span>
-                  <strong>Omnichannel</strong>
-                </div>
-                <div>
-                  <span>Ort</span>
-                  <strong>Frankfurt</strong>
-                </div>
-                <div>
-                  <span>Zielgruppe</span>
-                  <strong>Versicherung</strong>
-                </div>
+                {t.seo.hero.panel.metrics.map((m) => (
+                  <div key={m.label}>
+                    <span>{m.label}</span>
+                    <strong>{m.value}</strong>
+                  </div>
+                ))}
               </div>
-              <p>
-                Ein erstes Gespräch klärt die wichtigste Ausgangsfrage zuerst und ordnet danach
-                Entscheidungs-, Prozess- und IT-Themen für einen realistischen Omnichannel-Fahrplan.
-              </p>
+              <p>{t.seo.hero.panel.body}</p>
               <PresentationMarker
-                eyebrow="SEO-Strategie"
+                copy={t.seo.markers.hero}
                 number="01"
-                title="Erster Bildschirm mit klarer Suchabsicht"
-                subtitle="Der Einstieg beantwortet sofort: Was ist das Thema, für wen ist es relevant und wo wird gesucht?"
-                relevance="Google und KI-Systeme erkennen schneller, dass diese Seite exakt zur Suchanfrage, Zielgruppe und Region passt."
-                points={[
-                  'Service, Standort und Zielgruppe werden sofort sichtbar',
-                  'Ort, Service und Zielgruppe als eigene Felder im Hero',
-                  'Der nächste Schritt steht direkt neben der fachlichen Einordnung',
-                ]}
                 pointer="left"
+                relevanceLabel={relevanceLabel}
               />
             </Reveal>
           </div>
         </section>
 
-        <section className="reference-strip" aria-label="Ausgewählte Referenzen">
+        <section className="reference-strip" aria-label={t.references.label}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="reference-inner">
               <p className="text-sm font-semibold leading-5 text-graphite">
-                Öffentliche Referenzen und Kundenlogos auf pentadoc.com
+                {t.references.note}
               </p>
               <div className="reference-marquee">
                 {referenceNames.map((name) => (
@@ -641,27 +447,20 @@ export function OmnichannelFrankfurtPage() {
                 <IntentSearchVisual />
               </Reveal>
               <Reveal className="seo-split-copy">
-                <p className="section-kicker text-brand-grey">Klärungsbedarf</p>
+                <p className="section-kicker text-brand-grey">{t.seo.intent.kicker}</p>
                 <h2 id="intent-title" className="section-title">
-                  Was vor einem Omnichannel-Projekt wirklich geklärt werden muss.
+                  {t.seo.intent.title}
                 </h2>
                 <PresentationMarker
-                  eyebrow="Klärungsbedarf"
+                  copy={t.seo.markers.intent}
                   number="02"
-                  title="Erst die Nutzerfrage klären"
-                  subtitle="Google und KI-Suchsysteme verstehen schneller, welche Nutzerfrage die Seite bedient."
-                  relevance="Eine klare Struktur erhöht die Chance, für fachliche Suchanfragen und KI-Antworten als passende Quelle verstanden zu werden."
-                  points={[
-                  'Drei Karten trennen Ausgangslage, Direktantwort und nächsten Schritt',
-                  'Die Seite erklärt zuerst die Entscheidungssituation, nicht das Unternehmen',
-                    'Entscheider erkennen sofort, ob die Seite ihr konkretes Problem trifft',
-                ]}
                   pointer="left"
+                  relevanceLabel={relevanceLabel}
                 />
               </Reveal>
             </div>
             <div className="intent-grid">
-              {intentCards.map((card) => (
+              {t.seo.intent.cards.map((card) => (
                 <Reveal key={card.title}>
                   <article className="intent-card">
                     <span>{card.label}</span>
@@ -677,18 +476,13 @@ export function OmnichannelFrankfurtPage() {
         <section id="loesung" className="section bg-white" aria-labelledby="solution-title">
           <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.84fr_1.16fr] lg:px-8">
             <Reveal>
-              <p className="section-kicker text-brand-grey">Ausgangslage</p>
+              <p className="section-kicker text-brand-grey">{t.seo.solution.kicker}</p>
               <h2 id="solution-title" className="section-title">
-                Omnichannel beginnt nicht beim Kanal. Es beginnt beim Kundenanliegen.
+                {t.seo.solution.title}
               </h2>
-              <p className="mt-5 text-lg leading-8 text-graphite">
-                In Versicherungen und Krankenkassen treffen Kundenkontakte über viele Wege ein:
-                App, Portal, Telefon, Brief, E-Mail, Maklerkontakt und interne Übergabe. Ein Frankfurter
-                Omnichannel-Programm muss diese Signale so ordnen, dass Service, Fachbereich und IT
-                mit derselben Wahrheit arbeiten.
-              </p>
+              <p className="mt-5 text-lg leading-8 text-graphite">{t.seo.solution.body}</p>
               <div className="seo-stat-row">
-                {proofStats.map((stat) => (
+                {t.proofStats.map((stat) => (
                   <div key={stat.label}>
                     <strong>{stat.value}</strong>
                     <span>{stat.label}</span>
@@ -696,24 +490,17 @@ export function OmnichannelFrankfurtPage() {
                 ))}
               </div>
               <PresentationMarker
-                eyebrow="Google-Suche"
+                copy={t.seo.markers.solution}
                 number="03"
-                title="Fachliche Tiefe statt Wortwiederholung"
-                subtitle="Der Seiteninhalt baut ein semantisches Themenfeld auf, damit die Seite mehr als nur eine einzelne Suchanfrage abdeckt."
-                relevance="Breite fachliche Abdeckung signalisiert Google, dass die Seite das Thema vollständig behandelt und nicht nur Begriffe wiederholt."
-                points={[
-                  'Omnichannel wird mit Anliegenmanagement, Input Management, CCM und IT-Strategie verbunden',
-                  'Problemkarten zeigen echte Servicebrüche statt generischer Marketingaussagen',
-                  'Proof-Zahlen geben der Seite fachliche Glaubwürdigkeit',
-                ]}
                 pointer="right"
+                relevanceLabel={relevanceLabel}
               />
             </Reveal>
             <div className="grid gap-4">
               <Reveal delay={0.04}>
                 <ChannelSystemVisual />
               </Reveal>
-              {painPoints.map((item, index) => (
+              {t.seo.solution.painPoints.map((item, index) => (
                 <Reveal key={item.title} delay={0.08 + index * 0.04}>
                   <article className="signal-panel">
                     <span>0{index + 1}</span>
@@ -731,39 +518,26 @@ export function OmnichannelFrankfurtPage() {
         <section id="frankfurt" className="seo-content-section" aria-labelledby="content-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <Reveal className="section-heading">
-              <p className="section-kicker text-brand-grey">Frankfurt und Rhein-Main</p>
+              <p className="section-kicker text-brand-grey">{t.seo.frankfurt.kicker}</p>
               <h2 id="content-title" className="section-title">
-                Antworten, die Entscheider vor einem Omnichannel-Projekt brauchen.
+                {t.seo.frankfurt.title}
               </h2>
             </Reveal>
 
             <div className="seo-article-grid">
               <article className="seo-article">
                 <div className="seo-answer-box">
-                  <p className="section-kicker text-brand-grey">Kurzantwort</p>
-                  <h3>Was ist Omnichannel Kundenservice Beratung in Frankfurt?</h3>
-                  <p>
-                    Omnichannel Kundenservice Beratung in Frankfurt hilft Versicherern, Krankenkassen
-                    und Finanzdienstleistern dabei, Telefon, E-Mail, Portal, App, Dokumente und
-                    ausgehende Kommunikation zu einem einheitlichen Serviceprozess zu verbinden.
-                    Entscheidend sind nicht möglichst viele Kanäle, sondern ein gemeinsames Bild vom
-                    Kundenanliegen, klare Zuständigkeiten, anschlussfähige IT und eine realistische Roadmap.
-                  </p>
+                  <p className="section-kicker text-brand-grey">{t.seo.frankfurt.shortAnswer.kicker}</p>
+                  <h3>{t.seo.frankfurt.shortAnswer.title}</h3>
+                  <p>{t.seo.frankfurt.shortAnswer.text}</p>
                 </div>
                 <PresentationMarker
-                  eyebrow="KI-Suche"
+                  copy={t.seo.markers.shortAnswer}
                   number="04"
-                  title="Kurzantwort, die KI-Systeme zitieren können"
-                  subtitle="Die Antwort ist so geschrieben, dass sie in KI-Suche, Snippets und Verkaufsgesprächen direkt zitierbar ist."
-                  relevance="KI-Suchsysteme bevorzugen klare Antwortblöcke, weil sie diese leichter extrahieren, zusammenfassen und als Quelle nennen können."
-                  points={[
-                    'Definition steht vor der langen Argumentation',
-                    'Ein Satz nennt Zielgruppe, Kanäle, Prozess und Ergebnis',
-                    'Danach folgt die Struktur: Definition, Standort, Beratung, Roadmap, Ergebnis',
-                  ]}
                   pointer="top"
+                  relevanceLabel={relevanceLabel}
                 />
-                {seoSections.map((section) => (
+                {t.seo.frankfurt.sections.map((section) => (
                   <section key={section.title}>
                     <p className="section-kicker text-brand-grey">{section.kicker}</p>
                     <h3>{section.title}</h3>
@@ -774,32 +548,19 @@ export function OmnichannelFrankfurtPage() {
                 ))}
               </article>
 
-              <aside className="seo-aside" aria-label="Omnichannel Beratung zusammengefasst">
+              <aside className="seo-aside" aria-label={t.seo.frankfurt.title}>
                 <FrankfurtMarketVisual />
-                <div className="seo-aside-card">
-                  <MapPin className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
-                  <h3>Frankfurt und Rhein-Main</h3>
-                  <p>
-                    Beratung für Unternehmen, die Kundenservice, Dokumente, Kommunikation und IT in
-                    einem anspruchsvollen Finanz- und Versicherungsumfeld verbinden wollen.
-                  </p>
-                </div>
-                <div className="seo-aside-card">
-                  <ShieldCheck className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
-                  <h3>Versicherungsnah</h3>
-                  <p>
-                    Fokus auf Kundenanliegen, Dokumente, Kommunikation, Prozesslogik und Migration
-                    statt isolierter Kanaloptimierung.
-                  </p>
-                </div>
-                <div className="seo-aside-card">
-                  <Building2 className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
-                  <h3>Überregional beraten</h3>
-                  <p>
-                    Pentadoc sitzt in Würzburg und begleitet Organisationen in Frankfurt, Rhein-Main
-                    und darüber hinaus.
-                  </p>
-                </div>
+                {t.seo.frankfurt.aside.cards.map((card, index) => {
+                  const icons = [MapPin, ShieldCheck, Building2]
+                  const Icon = icons[index] ?? MapPin
+                  return (
+                    <div key={card.title} className="seo-aside-card">
+                      <Icon className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
+                      <h3>{card.title}</h3>
+                      <p>{card.text}</p>
+                    </div>
+                  )
+                })}
               </aside>
             </div>
           </div>
@@ -812,27 +573,20 @@ export function OmnichannelFrankfurtPage() {
                 <QuestionArchitectureVisual />
               </Reveal>
               <Reveal className="seo-split-copy">
-                <p className="section-kicker text-brand-grey">Entscheiderfragen</p>
+                <p className="section-kicker text-brand-grey">{t.seo.questions.kicker}</p>
                 <h2 id="question-cluster-title" className="section-title">
-                  Strategie, Betrieb und Technik werden in klaren Entscheiderfragen geordnet.
+                  {t.seo.questions.title}
                 </h2>
                 <PresentationMarker
-                  eyebrow="Inhaltsarchitektur"
+                  copy={t.seo.markers.questions}
                   number="05"
-                  title="Entscheiderfragen als Inhaltsarchitektur"
-                  subtitle="Die Seite ist entlang der Fragen aufgebaut, die Entscheider vor einer Anfrage wirklich stellen."
-                  relevance="Wenn die Seite echte Entscheidungsfragen beantwortet, gewinnt sie Relevanz für mehrere Suchphrasen und für dialogartige KI-Suchen."
-                  points={[
-                    'Strategiefragen für Management und Fachbereich',
-                    'Operative Fragen für Service, Backoffice und Prozessverantwortliche',
-                    'Technische Fragen für IT, Daten, Schnittstellen und Migration',
-                  ]}
                   pointer="left"
+                  relevanceLabel={relevanceLabel}
                 />
               </Reveal>
             </div>
             <div className="question-grid">
-              {questionClusters.map((cluster) => (
+              {t.seo.questions.clusters.map((cluster) => (
                 <Reveal key={cluster.title}>
                   <article className="question-card">
                     <h3>{cluster.title}</h3>
@@ -854,42 +608,25 @@ export function OmnichannelFrankfurtPage() {
         <section className="feature-section" aria-labelledby="map-title">
           <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
             <Reveal>
-              <p className="section-kicker text-brand-yellow">Zielbild</p>
+              <p className="section-kicker text-brand-yellow">{t.seo.map.kicker}</p>
               <h2 id="map-title" className="section-title text-white">
-                Ein Omnichannel Zielbild verbindet Eingang, Anliegen, Kommunikation und Betrieb.
+                {t.seo.map.title}
               </h2>
-              <p className="mt-5 text-lg leading-8 text-white/[0.80]">
-                Der Unterschied zwischen mehreren Kanälen und echtem Omnichannel liegt in der Steuerung.
-                Ein Kanal darf nicht nur erreichbar sein. Er muss in denselben Prozess, dieselbe
-                Informationslage und dieselbe Kommunikationslogik einzahlen.
-              </p>
+              <p className="mt-5 text-lg leading-8 text-white/[0.80]">{t.seo.map.body}</p>
               <ul className="mt-7 grid gap-3 text-base leading-7 text-white/[0.84]">
-                <li className="flex gap-3">
-                  <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-brand-yellow" aria-hidden="true" />
-                  <span>Kundenkontext über Kontaktpunkte hinweg sichtbar machen</span>
-                </li>
-                <li className="flex gap-3">
-                  <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-brand-yellow" aria-hidden="true" />
-                  <span>Dokumente und Nachrichten fachlich mit dem Anliegen verbinden</span>
-                </li>
-                <li className="flex gap-3">
-                  <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-brand-yellow" aria-hidden="true" />
-                  <span>Roadmap für Systeme, Rollen, Migration und Steuerung ableiten</span>
-                </li>
+                {t.seo.map.checklist.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-brand-yellow" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
               <PresentationMarker
-                eyebrow="Semantische Struktur"
+                copy={t.seo.markers.map}
                 number="06"
-                title="Fachbegriffe als verbundenes System"
-                subtitle="Wichtige Such- und AI-Entitäten werden als zusammenhängendes System erklärt, nicht als lose Begriffe."
-                relevance="Suchmaschinen und KI-Systeme verstehen die Seite besser, wenn Begriffe wie Kanäle, Anliegen, Kommunikation und Betrieb logisch verbunden sind."
-                points={[
-                  'Knoten: Eingänge, Anliegen, Kommunikation und Betrieb',
-                  'Zentrum: Frankfurt + Omnichannel Kundenservice',
-                  'Visuelle Struktur macht die fachliche Beziehung sofort verständlich',
-                ]}
                 tone="dark"
                 pointer="right"
+                relevanceLabel={relevanceLabel}
               />
             </Reveal>
             <Reveal delay={0.08}>
@@ -905,18 +642,15 @@ export function OmnichannelFrankfurtPage() {
                 <RoadmapVisual />
               </Reveal>
               <Reveal className="seo-split-copy">
-                <p className="section-kicker text-brand-grey">Vorgehen</p>
+                <p className="section-kicker text-brand-grey">{t.seo.approach.kicker}</p>
                 <h2 id="approach-title" className="section-title">
-                  Vom ersten Klärungsbedarf zur entscheidbaren Omnichannel Roadmap.
+                  {t.seo.approach.title}
                 </h2>
-                <p className="mt-5 text-lg leading-8 text-graphite">
-                  Die Roadmap zeigt, wie aus einem ersten Klärungsbedarf ein konkreter
-                  Beratungsfahrplan mit Prioritäten, Abhängigkeiten und nächsten Umsetzungsschritten wird.
-                </p>
+                <p className="mt-5 text-lg leading-8 text-graphite">{t.seo.approach.body}</p>
               </Reveal>
             </div>
             <div className="process-grid">
-              {approachSteps.map((step, index) => (
+              {t.seo.approach.steps.map((step, index) => (
                 <Reveal key={step.title} delay={index * 0.04}>
                   <article className="process-card">
                     <span>{String(index + 1).padStart(2, '0')}</span>
@@ -935,48 +669,30 @@ export function OmnichannelFrankfurtPage() {
               <img
                 className="image-panel"
                 src={officeImage}
-                alt="Pentadoc Büro- und Teamsituation"
+                alt={t.seo.why.title}
                 width="1000"
                 height="813"
                 loading="lazy"
               />
             </Reveal>
             <Reveal>
-              <p className="section-kicker text-brand-grey">Warum Pentadoc</p>
+              <p className="section-kicker text-brand-grey">{t.seo.why.kicker}</p>
               <h2 id="why-title" className="section-title">
-                Herstellerunabhängig, versicherungsnah und stark in dokumentennahen Prozessen.
+                {t.seo.why.title}
               </h2>
               <div className="benefit-stack">
-                <article className="benefit-card">
-                  <Route className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
-                  <div>
-                    <h3>Zielbild statt Tool-Liste</h3>
-                    <p>
-                      Der erste Mehrwert liegt in klaren Entscheidungen: Welche Kanäle, Anliegen,
-                      Dokumente, Systeme und Rollen müssen zusammenspielen?
-                    </p>
-                  </div>
-                </article>
-                <article className="benefit-card">
-                  <Network className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
-                  <div>
-                    <h3>IT-Strategie und Migration</h3>
-                    <p>
-                      Omnichannel wird mit Architektur, Daten, Schnittstellen und Migrationspfaden
-                      verbunden, damit die Roadmap im Betrieb realistisch bleibt.
-                    </p>
-                  </div>
-                </article>
-                <article className="benefit-card">
-                  <GitBranch className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
-                  <div>
-                    <h3>Von Frankfurt aus anschlussfähig</h3>
-                    <p>
-                      Pentadoc begleitet Organisationen im Frankfurter Markt und bleibt fachlich auf
-                      überregionale Versicherungs- und Krankenkassenprozesse ausgerichtet.
-                    </p>
-                  </div>
-                </article>
+                {t.seo.why.cards.map((card, index) => {
+                  const Icon = seoWhyIcons[index] ?? seoWhyIcons[0]
+                  return (
+                    <article key={card.title} className="benefit-card">
+                      <Icon className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
+                      <div>
+                        <h3>{card.title}</h3>
+                        <p>{card.text}</p>
+                      </div>
+                    </article>
+                  )
+                })}
               </div>
             </Reveal>
           </div>
@@ -986,22 +702,15 @@ export function OmnichannelFrankfurtPage() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="seo-split">
               <Reveal className="seo-split-copy">
-                <p className="section-kicker text-brand-grey">FAQ</p>
+                <p className="section-kicker text-brand-grey">{t.seo.faq.kicker}</p>
                 <h2 id="faq-title" className="section-title">
-                  Häufige Fragen zu Omnichannel Kundenservice Frankfurt.
+                  {t.seo.faq.title}
                 </h2>
                 <PresentationMarker
-                  eyebrow="Fragenabdeckung"
+                  copy={t.seo.markers.faq}
                   number="07"
-                  title="FAQ für lange Suchfragen und KI-Antworten"
-                  subtitle="FAQ-Blöcke beantworten konkrete Folgefragen, die Käufer in Google und KI-Suchsystemen stellen."
-                  relevance="Direkte Fragen und Antworten erhöhen die Chance auf lange Suchanfragen, hervorgehobene Google-Antworten und verwendbare KI-Antworten."
-                  points={[
-                    'Lokale Frage: Frankfurt als Standort- und Suchsignal',
-                    'Kauffrage: Software zuerst oder Zielbild zuerst?',
-                    'Einstiegsfrage: Wie klein kann ein erstes Projekt starten?',
-                  ]}
                   pointer="right"
+                  relevanceLabel={relevanceLabel}
                 />
               </Reveal>
               <Reveal>
@@ -1009,7 +718,7 @@ export function OmnichannelFrankfurtPage() {
               </Reveal>
             </div>
             <div className="faq-list">
-              {faqItems.map((item) => (
+              {t.seo.faq.items.map((item) => (
                 <details key={item.question} className="faq-item">
                   <summary>
                     <span>{item.question}</span>
@@ -1025,28 +734,17 @@ export function OmnichannelFrankfurtPage() {
         <section id="kontakt" className="section bg-ink text-white" aria-labelledby="contact-title">
           <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
             <Reveal>
-              <p className="section-kicker text-brand-yellow">Kontakt</p>
+              <p className="section-kicker text-brand-yellow">{t.seo.contact.kicker}</p>
               <h2 id="contact-title" className="section-title text-white">
-                Klären Sie, ob Omnichannel in Frankfurt ein Kanal-, Prozess- oder Architekturthema ist.
+                {t.seo.contact.title}
               </h2>
-              <p className="mt-5 text-lg leading-8 text-white/[0.78]">
-                Teilen Sie kurz mit, welche Kanäle, Systeme oder Serviceprozesse betroffen sind.
-                Daraus lässt sich ein erster fachlicher Zuschnitt für Omnichannel, Anliegenmanagement
-                oder Customer Communication Management ableiten.
-              </p>
+              <p className="mt-5 text-lg leading-8 text-white/[0.78]">{t.seo.contact.body}</p>
               <PresentationMarker
-                eyebrow="Lead-Strategie"
+                copy={t.seo.markers.contact}
                 number="08"
-                title="Vom Informationsbedarf zur qualifizierten Anfrage"
-                subtitle="Eine gute SEO-Seite beantwortet Fragen und führt dann natürlich zum nächsten geschäftlichen Schritt."
-                relevance="Ranking bringt nur Wert, wenn die Seite aus Sichtbarkeit eine passende Anfrage macht. Deshalb verbindet der Text Beratungsthema und Kontaktgrund."
-                points={[
-                  'Kontakttext wiederholt das konkrete Omnichannel-Problem',
-                  'Formular fragt nach Ausgangslage statt nur nach Kontaktdaten',
-                  'CTA bleibt sichtbar, ohne den Inhalt zu verdrängen',
-                ]}
                 tone="dark"
                 pointer="right"
+                relevanceLabel={relevanceLabel}
               />
               <div className="mt-8 grid gap-3 rounded-lg border border-white/[0.12] bg-white/[0.08] p-5">
                 <a className="flex min-h-11 items-center gap-3 font-semibold text-white" href="tel:+4993126079110">
@@ -1068,13 +766,11 @@ export function OmnichannelFrankfurtPage() {
         <section className="final-cta" aria-labelledby="final-title">
           <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1fr_auto] lg:items-center lg:px-8">
             <div>
-              <p className="section-kicker text-ink">Nächster Schritt</p>
-              <h2 id="final-title">
-                Aus dem ersten Gespräch wird ein prüfbarer Omnichannel-Fahrplan.
-              </h2>
+              <p className="section-kicker text-ink">{t.seo.finalCta.kicker}</p>
+              <h2 id="final-title">{t.seo.finalCta.title}</h2>
             </div>
             <a className="btn-dark" href="#kontakt">
-              Anfrage starten
+              {t.seo.finalCta.cta}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
@@ -1085,40 +781,28 @@ export function OmnichannelFrankfurtPage() {
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.25fr_0.75fr_0.85fr_1fr] lg:px-8">
           <div>
             <img className="h-10 w-auto" src={logo} alt="Pentadoc AG" width="177" height="48" loading="lazy" />
-            <p className="mt-5 max-w-sm">
-              Herstellerunabhängige Unternehmensberatung für digitale Transformation, Input Management,
-              Anliegenmanagement, Omnichannel Kundenservice, CCM, IT-Strategie und Migration.
-            </p>
+            <p className="mt-5 max-w-sm">{t.seo.footer.blurb}</p>
           </div>
           <div>
-            <h2>Navigation</h2>
+            <h2>{t.seo.footer.navHeading}</h2>
             <ul>
-              <li>
-                <a href="#loesung">Lösung</a>
-              </li>
-              <li>
-                <a href="#frankfurt">Frankfurt</a>
-              </li>
-              <li>
-                <a href="#vorgehen">Vorgehen</a>
-              </li>
-              <li>
-                <a href="#kontakt">Kontakt</a>
-              </li>
+              {t.seo.footer.navItems.map((item) => (
+                <li key={item.href}>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
-            <h2>Schwerpunkte</h2>
+            <h2>{t.seo.footer.focusHeading}</h2>
             <ul>
-              <li>Omnichannel Kundenservice</li>
-              <li>Anliegenmanagement</li>
-              <li>Input Management</li>
-              <li>Customer Communication Management</li>
-              <li>IT-Strategie Versicherung</li>
+              {t.seo.footer.focusItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
           </div>
           <div>
-            <h2>Kontakt</h2>
+            <h2>{t.footer.contactHeading}</h2>
             <address className="not-italic">
               {contact.addressLines.map((line) => (
                 <span key={line}>{line}</span>
@@ -1137,17 +821,17 @@ export function OmnichannelFrankfurtPage() {
                 </a>
               </li>
               <li>
-                <a href="https://pentadoc.com/impressum/">Impressum</a>
+                <a href="https://pentadoc.com/impressum/">{t.footer.imprint}</a>
               </li>
               <li>
-                <a href="https://pentadoc.com/datenschutz/">Datenschutz</a>
+                <a href="https://pentadoc.com/datenschutz/">{t.footer.privacy}</a>
               </li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2026 Pentadoc AG.</p>
-          <p>Digitale Transformation für Versicherer, Krankenkassen und Finanzdienstleister.</p>
+          <p>{t.footer.copyright}</p>
+          <p>{t.footer.tagline}</p>
         </div>
       </footer>
 

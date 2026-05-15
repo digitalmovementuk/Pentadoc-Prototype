@@ -1,8 +1,10 @@
 import { ArrowRight, Phone } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useT } from '../lib/i18n'
 
 export function StickyCTA() {
   const [visible, setVisible] = useState(false)
+  const t = useT()
 
   useEffect(() => {
     const onScroll = () => {
@@ -29,16 +31,16 @@ export function StickyCTA() {
     >
       <div className="sticky-cta-panel">
         <div className="hidden min-w-0 md:block">
-          <p className="text-sm font-semibold leading-5 text-white">Bereit für eine klare Transformationsentscheidung?</p>
-          <p className="text-xs leading-5 text-white/[0.72]">Kurze Anfrage senden oder direkt anrufen.</p>
+          <p className="text-sm font-semibold leading-5 text-white">{t.stickyCta.headline}</p>
+          <p className="text-xs leading-5 text-white/[0.72]">{t.stickyCta.sub}</p>
         </div>
         <div className="flex w-full items-center justify-end gap-2 md:w-auto">
           <a className="sticky-phone" href="tel:+4993126079110">
             <Phone className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Anrufen</span>
+            <span className="hidden sm:inline">{t.stickyCta.call}</span>
           </a>
           <a className="sticky-button" href="#kontakt">
-            Anfrage senden
+            {t.stickyCta.request}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </a>
         </div>

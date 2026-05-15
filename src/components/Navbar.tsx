@@ -2,12 +2,14 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Menu, Phone, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import logo from '../assets/images/pentadoc-logo-small.webp'
-import { navLinks } from '../content'
+import { useT } from '../lib/i18n'
+import { LanguagePicker } from './LanguagePicker'
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const reduceMotion = useReducedMotion()
+  const t = useT()
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 32)
@@ -40,7 +42,7 @@ export function Navbar() {
   return (
     <>
       <a className="skip-link" href="#main-content">
-        Zum Inhalt springen
+        {t.nav.skipToContent}
       </a>
       <header
         className={`fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-all duration-300 sm:px-5 ${
@@ -53,14 +55,14 @@ export function Navbar() {
               ? 'border-ink/10 bg-white/95'
               : 'border-white/[0.55] bg-white/[0.86]'
           }`}
-          aria-label="Hauptnavigation"
+          aria-label={t.nav.aria}
         >
           <a className="focus-ring flex min-h-11 items-center rounded-md" href="#top">
             <img className="h-8 w-auto sm:h-9" src={logo} alt="Pentadoc AG" width="177" height="48" />
           </a>
 
           <div className="hidden items-center gap-1 lg:flex">
-            {navLinks.map((link) => (
+            {t.nav.links.map((link) => (
               <a key={link.href} className="nav-link" href={link.href}>
                 {link.label}
               </a>
@@ -70,23 +72,27 @@ export function Navbar() {
           <div className="hidden items-center gap-3 lg:flex">
             <a className="nav-phone" href="tel:+4993126079110">
               <Phone className="h-4 w-4" aria-hidden="true" />
-              +49 931 2607911-0
+              {t.nav.phoneLabel}
             </a>
+            <LanguagePicker surface="light" compact={isScrolled} />
             <a className="btn-primary min-w-[150px]" href="#kontakt">
-              Erstgespräch
+              {t.nav.cta}
             </a>
           </div>
 
-          <button
-            className="focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-md bg-ink text-white lg:hidden"
-            type="button"
-            aria-label="Navigation öffnen"
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-            onClick={() => setIsOpen(true)}
-          >
-            <Menu aria-hidden="true" />
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguagePicker surface="light" compact />
+            <button
+              className="focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-md bg-ink text-white"
+              type="button"
+              aria-label={t.nav.openMenu}
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setIsOpen(true)}
+            >
+              <Menu aria-hidden="true" />
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -113,7 +119,7 @@ export function Navbar() {
                 <button
                   className="focus-ring inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-ink/10 text-ink"
                   type="button"
-                  aria-label="Navigation schließen"
+                  aria-label={t.nav.closeMenu}
                   onClick={closeMenu}
                 >
                   <X aria-hidden="true" />
@@ -121,7 +127,7 @@ export function Navbar() {
               </div>
 
               <div className="mt-9 grid gap-2">
-                {navLinks.map((link) => (
+                {t.nav.links.map((link) => (
                   <a
                     key={link.href}
                     className="mobile-link"
@@ -135,10 +141,10 @@ export function Navbar() {
 
               <div className="mt-auto grid gap-3 border-t border-ink/10 pt-5">
                 <a className="btn-primary w-full" href="#kontakt" onClick={closeMenu}>
-                  Anfrage senden
+                  {t.nav.mobileSendRequest}
                 </a>
                 <a className="btn-secondary w-full" href="tel:+4993126079110">
-                  Direkt anrufen
+                  {t.nav.mobileCallDirect}
                 </a>
               </div>
             </motion.div>
