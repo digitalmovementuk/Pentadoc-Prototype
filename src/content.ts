@@ -244,14 +244,14 @@ export const faqs = [
   {
     question: 'Wo sitzt Pentadoc?',
     answer:
-      'Pentadoc AG sitzt laut Impressum in der Goethestraße 1, 97072 Würzburg, Deutschland, und berät überregional.',
+      'Pentadoc AG sitzt in der Beethovenstraße 1a, 97080 Würzburg, Deutschland, und berät überregional.',
   },
 ]
 
 export const contact = {
   phone: '+49 (0)931 2607911-0',
   email: 'info@pentadoc.com',
-  addressLines: ['Pentadoc AG', 'Goethestraße 1', '97072 Würzburg', 'Deutschland'],
+  addressLines: ['Pentadoc AG', 'Beethovenstraße 1a', '97080 Würzburg', 'Deutschland'],
   linkedIn: 'https://www.linkedin.com/company/pentadoc-ag',
   website: 'https://pentadoc.com/',
 }

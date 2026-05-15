@@ -122,8 +122,8 @@ function buildSeoSchema(page) {
         email: 'info@pentadoc.com',
         address: {
           '@type': 'PostalAddress',
-          streetAddress: 'Goethestraße 1',
-          postalCode: '97072',
+          streetAddress: 'Beethovenstraße 1a',
+          postalCode: '97080',
           addressLocality: 'Würzburg',
           addressCountry: 'DE',
         },
