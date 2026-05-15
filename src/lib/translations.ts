@@ -10,7 +10,7 @@ export type ProofNote = { company: string; person: string; text: string }
 export type Faq = { question: string; answer: string }
 export type IntentCard = { label: string; title: string; text: string }
 export type ReadinessCard = { label: string; text: string }
-export type QuestionCluster = { title: string; questions: string[] }
+export type QuestionCluster = { title: string; qa: { question: string; answer: string }[] }
 export type SeoSection = { kicker: string; title: string; body: string[] }
 
 export type PresentationMarkerCopy = {
@@ -647,9 +647,30 @@ const de: Translations = {
       kicker: 'Entscheiderfragen',
       title: 'Strategie, Betrieb und Technik werden in klaren Entscheiderfragen geordnet.',
       clusters: [
-        { title: 'Strategische Fragen', questions: ['Welche Rolle soll Omnichannel im Kundenservice-Zielbild spielen?', 'Welche Kanäle sind für Frankfurt und Rhein-Main geschäftlich wirklich relevant?', 'Welche Entscheidungen brauchen Vorstand, Fachbereich und IT zuerst?'] },
-        { title: 'Operative Fragen', questions: ['Welche Anliegen bleiben heute zwischen Telefon, Portal, E-Mail und Dokumenten hängen?', 'Wo entstehen Rückfragen, Liegezeiten oder doppelte Bearbeitung?', 'Welche Informationen brauchen Mitarbeitende beim ersten Kontakt?'] },
-        { title: 'Technische Fragen', questions: ['Welche Systeme müssen Kundendaten, Dokumente und Statusinformationen teilen?', 'Welche Rolle spielen Input Management, CCM und Workflow-Automation?', 'Welche Migrationen oder Schnittstellen bestimmen die Roadmap?'] },
+        {
+          title: 'Strategische Fragen',
+          qa: [
+            { question: 'Welche Rolle soll Omnichannel im Kundenservice-Zielbild spielen?', answer: 'Es ist die Steuerungsebene — jeder Kanal zahlt auf eine gemeinsame Anliegenlogik ein. Ohne sie entstehen nur parallele Postkörbe, kein echtes Omnichannel.' },
+            { question: 'Welche Kanäle sind für Frankfurt und Rhein-Main geschäftlich wirklich relevant?', answer: 'Telefon, Maklerkontakt, E-Mail und Portal dominieren weiterhin; App und Chat wachsen am schnellsten. Entscheidend ist nicht das Hinzufügen, sondern welche Kanäle für welche Kundengruppe führen müssen.' },
+            { question: 'Welche Entscheidungen brauchen Vorstand, Fachbereich und IT zuerst?', answer: 'Drei: welche Kanäle führen, welche Anliegen end-to-end automatisiert werden und welche Altsysteme ersetzt statt nur angebunden werden. Sind diese geklärt, ordnet sich der Rest der Roadmap.' },
+          ],
+        },
+        {
+          title: 'Operative Fragen',
+          qa: [
+            { question: 'Welche Anliegen bleiben heute zwischen Telefon, Portal, E-Mail und Dokumenten hängen?', answer: 'Typisch sind Schadenrückfragen, fehlende Unterlagen, Vertragsänderungen und Beschwerden — alles, was ein Hin und Her über mehrere Kontaktpunkte auslöst.' },
+            { question: 'Wo entstehen Rückfragen, Liegezeiten oder doppelte Bearbeitung?', answer: 'An den Nahtstellen: zwischen Front- und Backoffice, zwischen OCR und Anliegenlogik, und zwischen Ausgangspost und Kundenakte.' },
+            { question: 'Welche Informationen brauchen Mitarbeitende beim ersten Kontakt?', answer: 'Kundenidentität, offene Anliegen, letzte Kontaktinfo, aktuelle Dokumente und die nächste erlaubte Aktion. Fehlt davon etwas auf einem Bildschirm, startet jedes Gespräch bei null.' },
+          ],
+        },
+        {
+          title: 'Technische Fragen',
+          qa: [
+            { question: 'Welche Systeme müssen Kundendaten, Dokumente und Statusinformationen teilen?', answer: 'Mindestens: CRM oder Bestandssystem, Dokumenten- und Input Management, CCM, Kontaktcenter-Plattform und Anliegenmanagement. Status und IDs müssen über alle Systeme hinweg stimmen.' },
+            { question: 'Welche Rolle spielen Input Management, CCM und Workflow-Automation?', answer: 'Input Management klassifiziert das Eingehende, CCM erstellt das Ausgehende, Workflow-Automation steuert den Vorgang dazwischen. Echtes Omnichannel braucht alle drei mit demselben Datenmodell.' },
+            { question: 'Welche Migrationen oder Schnittstellen bestimmen die Roadmap?', answer: 'Meist die Migration des Kernsystems, der Wechsel der Dokumenten- bzw. Input-Plattform und die Einführung eines Event-Bus oder einer Anliegen-API. Sie geben das Tempo für alles Weitere vor.' },
+          ],
+        },
       ],
     },
     map: {
@@ -1167,9 +1188,30 @@ const en: Translations = {
       kicker: 'Decision-maker questions',
       title: 'Strategy, operations and technology get sorted into clear decision-maker questions.',
       clusters: [
-        { title: 'Strategic questions', questions: ['What role should omnichannel play in the customer service target picture?', 'Which channels really matter commercially in Frankfurt and Rhine-Main?', 'Which decisions do the board, the business unit and IT need first?'] },
-        { title: 'Operational questions', questions: ['Which cases get stuck today between phone, portal, email and documents?', 'Where do follow-ups, waiting times or duplicate work appear?', 'What information do staff need at first contact?'] },
-        { title: 'Technical questions', questions: ['Which systems need to share customer data, documents and status?', 'What role do input management, CCM and workflow automation play?', 'Which migrations or interfaces drive the roadmap?'] },
+        {
+          title: 'Strategic questions',
+          qa: [
+            { question: 'What role should omnichannel play in the customer service target picture?', answer: 'It is the steering layer — every channel feeds into one shared case logic. Without it, you only get parallel inboxes, not real omnichannel.' },
+            { question: 'Which channels really matter commercially in Frankfurt and Rhine-Main?', answer: 'Phone, broker contact, email and portal still dominate; app and chat grow fastest. The choice is less about adding channels and more about which ones must lead for which customer group.' },
+            { question: 'Which decisions do the board, the business unit and IT need first?', answer: 'Three: which channels lead, which cases get automated end-to-end, and which legacy systems get replaced rather than just connected. Settle those and the rest of the roadmap falls into place.' },
+          ],
+        },
+        {
+          title: 'Operational questions',
+          qa: [
+            { question: 'Which cases get stuck today between phone, portal, email and documents?', answer: 'Typically claim updates, missing-document follow-ups, contract changes and complaints — anything that triggers a back-and-forth across more than two touchpoints.' },
+            { question: 'Where do follow-ups, waiting times or duplicate work appear?', answer: 'At the seams: between front office and back office, between OCR and case logic, and between outgoing letters and the underlying customer record.' },
+            { question: 'What information do staff need at first contact?', answer: 'Customer identity, open cases, last contact context, current documents, and the next allowed action. If that is not visible on one screen, every call starts from zero.' },
+          ],
+        },
+        {
+          title: 'Technical questions',
+          qa: [
+            { question: 'Which systems need to share customer data, documents and status?', answer: 'At a minimum: CRM or policy core, document and input management, CCM, contact-centre platform, and case management. Status and identifiers have to align across all of them.' },
+            { question: 'What role do input management, CCM and workflow automation play?', answer: 'Input management classifies what arrives, CCM produces what goes out, and workflow automation orchestrates the case in between. Real omnichannel needs all three speaking the same data model.' },
+            { question: 'Which migrations or interfaces drive the roadmap?', answer: 'Usually the core-system migration, the document or input-platform swap, and the introduction of an event bus or case API. They set the pace for everything else.' },
+          ],
+        },
       ],
     },
     map: {

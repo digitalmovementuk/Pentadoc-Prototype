@@ -590,14 +590,18 @@ export function OmnichannelFrankfurtPage() {
                 <Reveal key={cluster.title}>
                   <article className="question-card">
                     <h3>{cluster.title}</h3>
-                    <ul>
-                      {cluster.questions.map((question) => (
-                        <li key={question}>
-                          <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
-                          <span>{question}</span>
-                        </li>
+                    <div className="question-accordion">
+                      {cluster.qa.map((item) => (
+                        <details key={item.question} className="question-accordion-item">
+                          <summary>
+                            <CheckCircle2 className="h-4 w-4 shrink-0 text-brand-yellow" aria-hidden="true" />
+                            <span>{item.question}</span>
+                            <span className="question-accordion-toggle" aria-hidden="true">+</span>
+                          </summary>
+                          <p>{item.answer}</p>
+                        </details>
                       ))}
-                    </ul>
+                    </div>
                   </article>
                 </Reveal>
               ))}

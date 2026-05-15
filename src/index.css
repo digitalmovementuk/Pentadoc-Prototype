@@ -740,16 +740,40 @@
     @apply text-2xl font-semibold leading-8 text-ink;
   }
 
-  .question-card ul {
-    @apply mt-5 grid gap-3;
+  .question-accordion {
+    @apply mt-5 grid gap-2;
   }
 
-  .question-card li {
-    @apply flex gap-3 text-sm font-semibold leading-6 text-graphite;
+  .question-accordion-item {
+    @apply rounded-md border border-ink/10 bg-white/80 transition;
   }
 
-  .question-card svg {
-    @apply mt-1 shrink-0;
+  .question-accordion-item[open] {
+    @apply border-brand-yellow bg-white shadow-sm;
+  }
+
+  .question-accordion-item summary {
+    @apply focus-ring grid cursor-pointer list-none grid-cols-[18px_1fr_18px] items-start gap-3 rounded-md px-4 py-3 text-left text-sm font-semibold leading-6 text-ink;
+  }
+
+  .question-accordion-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .question-accordion-item summary svg {
+    @apply mt-1;
+  }
+
+  .question-accordion-toggle {
+    @apply text-xl font-light leading-6 text-brand-grey transition;
+  }
+
+  .question-accordion-item[open] .question-accordion-toggle {
+    transform: rotate(45deg);
+  }
+
+  .question-accordion-item p {
+    @apply px-4 pb-4 pt-1 text-sm leading-6 text-graphite;
   }
 
   .workflow-visual {
@@ -1132,6 +1156,239 @@
     left: calc(2rem - 0.34rem);
     top: auto;
     transform: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Mobile + tablet portrait — center-align everything in general
+   ───────────────────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  /* Section copy blocks become a single centered column */
+  .section-title,
+  .seo-split-copy {
+    text-align: center;
+  }
+
+  .seo-split-copy > .section-kicker,
+  .seo-split-copy > p {
+    text-align: center;
+  }
+
+  /* Section heading was already centered; keep, just nudge breathing room */
+  .section-heading {
+    margin-inline: auto;
+  }
+
+  /* Centered card content for every stacked card grid on small viewports */
+  .signal-panel,
+  .service-card,
+  .intent-card,
+  .process-card,
+  .model-card,
+  .proof-card,
+  .benefit-card,
+  .question-card,
+  .conversion-card,
+  .seo-aside-card {
+    text-align: center;
+  }
+
+  /* Single-column cards: center inner grid + child icons */
+  .signal-panel {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .signal-panel > div {
+    text-align: center;
+  }
+
+  .benefit-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .benefit-card > svg {
+    margin-inline: auto;
+  }
+
+  /* Top-icon cards: center the icon block */
+  .service-icon,
+  .model-number {
+    margin-inline: auto;
+  }
+
+  .service-card,
+  .conversion-card {
+    align-items: center;
+  }
+
+  .service-card strong {
+    text-align: center;
+  }
+
+  .proof-card svg,
+  .seo-aside-card svg,
+  .conversion-card svg {
+    margin-inline: auto;
+  }
+
+  /* Bulleted lists: keep icon-left rows but centre the list as a block */
+  .seo-hero-checks,
+  .hero-checklist {
+    width: fit-content;
+    margin-inline: auto;
+  }
+
+  /* Accordions inside question cards: list left-aligned, container centred */
+  .question-accordion {
+    text-align: left;
+  }
+
+  /* Feature-section + map checklists (dark themes) */
+  .feature-section ul,
+  .seo-stat-row {
+    width: fit-content;
+    margin-inline: auto;
+  }
+
+  .seo-stat-row > div {
+    text-align: center;
+  }
+
+  /* Workflow side stack (signature topic block) */
+  .workflow-stack > div {
+    text-align: center;
+  }
+
+  .workflow-stack span,
+  .workflow-stack p {
+    text-align: center;
+  }
+
+  /* Hero CTA row: stack centered on mobile, retain inline row from sm: up */
+  .hero-section .flex.flex-col,
+  .seo-hero .flex.flex-col {
+    align-items: center;
+  }
+
+  /* Contact panel rows: centre the phone / email / address blocks */
+  .contact-panel {
+    text-align: center;
+  }
+
+  .contact-panel a,
+  .contact-panel div {
+    justify-content: center;
+  }
+
+  /* Reference strip: one centered column instead of label-left + chips-right */
+  .reference-inner {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .reference-marquee {
+    justify-content: center;
+  }
+
+  /* Awards row: centre the panel content */
+  .award-panel {
+    text-align: center;
+    justify-items: center;
+  }
+
+  /* Footer columns: each column body centres on small screens */
+  .footer h2,
+  .footer p,
+  .footer ul,
+  .footer address {
+    text-align: center;
+  }
+
+  .footer ul {
+    width: fit-content;
+    margin-inline: auto;
+  }
+
+  .footer-bottom {
+    text-align: center;
+  }
+
+  /* Sticky CTA — keep panel tidy on small screens */
+  .sticky-cta-panel {
+    justify-content: center;
+  }
+
+  /* Hero panels (SEO right-side card + home form) — already mx-auto, just
+     make sure inner labels read centered like the rest of the page */
+  .seo-panel-metrics > div {
+    text-align: center;
+  }
+
+  /* The decorative omni-map nodes: centre h3 + p */
+  .omni-node {
+    text-align: center;
+  }
+
+  .omni-node svg {
+    margin-inline: auto;
+  }
+
+  /* Presentation markers stay left-aligned — they're info-dense and read
+     better as a structured block — but the bullet list now centres */
+  .presentation-marker ul {
+    width: fit-content;
+    margin-inline: auto;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   Small-mobile polish — tighten spacing for ≤480px
+   ───────────────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .section {
+    padding-block: 4.5rem;
+  }
+
+  .hero-section,
+  .seo-hero {
+    padding-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.875rem;
+    line-height: 1.2;
+  }
+
+  .seo-hero-title,
+  .hero-title {
+    font-size: 2.125rem;
+  }
+
+  .reference-strip {
+    padding-block: 1.25rem;
+  }
+
+  /* Final CTA: stack centred on small screens */
+  .final-cta .grid {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .final-cta h2 {
+    margin-inline: auto;
+  }
+
+  /* Cards: tighter padding */
+  .signal-panel,
+  .service-card,
+  .intent-card,
+  .process-card,
+  .model-card,
+  .proof-card,
+  .question-card {
+    padding: 1.25rem;
   }
 }
 
