@@ -235,7 +235,7 @@
     @apply absolute left-0 top-0 h-full w-1 bg-brand-yellow;
   }
 
-  .presentation-marker span {
+  .presentation-marker-label {
     @apply block text-xs font-bold uppercase leading-5 text-brand-grey;
   }
 
@@ -243,15 +243,27 @@
     @apply mt-2 text-lg font-semibold leading-6 text-ink;
   }
 
-  .presentation-marker p {
+  .presentation-marker-subtitle {
     @apply mt-2 text-sm leading-6 text-graphite;
+  }
+
+  .presentation-marker ul {
+    @apply mt-3 grid gap-2;
+  }
+
+  .presentation-marker li {
+    @apply flex gap-2 text-sm font-semibold leading-6 text-graphite;
+  }
+
+  .presentation-marker li svg {
+    @apply mt-1 shrink-0;
   }
 
   .presentation-marker-dark {
     @apply border-brand-yellow/45 bg-brand-yellow/[0.12] shadow-none;
   }
 
-  .presentation-marker-dark span {
+  .presentation-marker-dark .presentation-marker-label {
     @apply text-brand-yellow;
   }
 
@@ -259,7 +271,8 @@
     @apply text-white;
   }
 
-  .presentation-marker-dark p {
+  .presentation-marker-dark .presentation-marker-subtitle,
+  .presentation-marker-dark li {
     @apply text-white/[0.78];
   }
 

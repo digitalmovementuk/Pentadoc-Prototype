@@ -33,7 +33,8 @@ const pageImage = 'https://digitalmovementuk.github.io/Pentadoc-Prototype/og-omn
 type PresentationMarkerProps = {
   number: string
   title: string
-  text: string
+  subtitle: string
+  points: string[]
   tone?: 'light' | 'dark'
 }
 
@@ -279,7 +280,7 @@ function OmnichannelMap() {
   )
 }
 
-function PresentationMarker({ number, title, text, tone = 'light' }: PresentationMarkerProps) {
+function PresentationMarker({ number, title, subtitle, points, tone = 'light' }: PresentationMarkerProps) {
   const reduceMotion = useReducedMotion()
 
   return (
@@ -291,9 +292,17 @@ function PresentationMarker({ number, title, text, tone = 'light' }: Presentatio
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       aria-label={`Präsentationsmarker ${number}`}
     >
-      <span>Präsentationsmarker {number}</span>
+      <span className="presentation-marker-label">Präsentationsmarker {number}</span>
       <h3>{title}</h3>
-      <p>{text}</p>
+      <p className="presentation-marker-subtitle">{subtitle}</p>
+      <ul>
+        {points.map((point) => (
+          <li key={point}>
+            <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
     </motion.aside>
   )
 }
@@ -428,8 +437,13 @@ export function OmnichannelFrankfurtPage() {
               </p>
               <PresentationMarker
                 number="01"
-                title="Suchintention sofort sichtbar"
-                text="Keyword, Ort, Zielgruppe und Service sind im ersten View erkennbar. Das macht die Seite für Käufer, Google und AI Search direkt einordenbar."
+                title="Intent-first Hero"
+                subtitle="Der erste Bildschirm beantwortet sofort: Was ist das Thema, für wen ist es relevant und wo wird gesucht?"
+                points={[
+                  'Suchbegriff sichtbar: „omnichannel kundenservice frankfurt“',
+                  'Ort, Service und Zielgruppe als eigene Felder im Hero',
+                  'CTA direkt neben der Suchintention statt erst am Seitenende',
+                ]}
               />
             </Reveal>
           </div>
@@ -459,8 +473,13 @@ export function OmnichannelFrankfurtPage() {
               </h2>
               <PresentationMarker
                 number="02"
-                title="Intent Layer vor der langen Copy"
-                text="Die Seite erklärt zuerst die Suchabsicht: Was sucht der Entscheider, welche Frage steckt dahinter und warum ist das Thema kaufnah?"
+                title="Suchintention vor Fließtext"
+                subtitle="Google und AI Search verstehen schneller, welche Nutzerfrage die Seite bedient."
+                points={[
+                  'Drei Karten trennen Thema, Direktantwort und Kaufabsicht',
+                  'Die Seite erklärt zuerst die Entscheidungssituation, nicht das Unternehmen',
+                  'Das hilft auch im Pitch: der Kunde sieht sofort die Logik hinter der Seite',
+                ]}
               />
             </Reveal>
             <div className="intent-grid">
@@ -500,8 +519,13 @@ export function OmnichannelFrankfurtPage() {
               </div>
               <PresentationMarker
                 number="03"
-                title="Fachlicher Kontext statt Keyword-Fülltext"
-                text="Die Copy verbindet Omnichannel mit Anliegenmanagement, Input Management, CCM und IT-Strategie. Das zeigt fachliche Tiefe statt nur wiederholte Suchbegriffe."
+                title="Topical Authority statt Keyword-Fülltext"
+                subtitle="Die Copy baut ein semantisches Themenfeld auf, damit die Seite mehr als nur ein einzelnes Keyword abdeckt."
+                points={[
+                  'Omnichannel wird mit Anliegenmanagement, Input Management, CCM und IT-Strategie verbunden',
+                  'Problemkarten zeigen echte Servicebrüche statt generischer Marketingaussagen',
+                  'Proof-Zahlen geben der Seite fachliche Glaubwürdigkeit',
+                ]}
               />
             </Reveal>
             <div className="grid gap-4">
@@ -544,8 +568,13 @@ export function OmnichannelFrankfurtPage() {
                 </div>
                 <PresentationMarker
                   number="04"
-                  title="Answer-first für AI Search"
-                  text="Die direkte Antwort steht vor den Detailabschnitten. So kann die Seite in KI-Antworten, Snippets und Verkaufsgesprächen schnell zitiert werden."
+                  title="Zitierfähige Kurzantwort"
+                  subtitle="Die Antwort ist so geschrieben, dass sie in AI Search, Snippets und Verkaufsgesprächen direkt zitierbar ist."
+                  points={[
+                    'Definition steht vor der langen Argumentation',
+                    'Ein Satz nennt Zielgruppe, Kanäle, Prozess und Ergebnis',
+                    'Danach folgt die Struktur: Definition, Standort, Beratung, Roadmap, Ergebnis',
+                  ]}
                 />
                 {seoSections.map((section) => (
                   <section key={section.title}>
@@ -597,8 +626,13 @@ export function OmnichannelFrankfurtPage() {
               </h2>
               <PresentationMarker
                 number="05"
-                title="Buyer-Fragen als Seitenstruktur"
-                text="Die Fragen spiegeln echte Entscheidungswege: Strategie, operativer Betrieb und technische Machbarkeit. Das ist hilfreich für Suchmaschinen und für Käufer."
+                title="Buyer-Fragen als Copy-Architektur"
+                subtitle="Die Seite ist entlang der Fragen aufgebaut, die Entscheider vor einer Anfrage wirklich stellen."
+                points={[
+                  'Strategiefragen für Management und Fachbereich',
+                  'Operative Fragen für Service, Backoffice und Prozessverantwortliche',
+                  'Technische Fragen für IT, Daten, Schnittstellen und Migration',
+                ]}
               />
             </Reveal>
             <div className="question-grid">
@@ -650,7 +684,12 @@ export function OmnichannelFrankfurtPage() {
               <PresentationMarker
                 number="06"
                 title="Entity Mapping sichtbar gemacht"
-                text="Kanäle, Anliegen, Kommunikation und Betrieb werden als zusammenhängendes System gezeigt. Das stärkt die thematische Autorität der Seite."
+                subtitle="Wichtige Such- und AI-Entitäten werden als zusammenhängendes System erklärt, nicht als lose Begriffe."
+                points={[
+                  'Knoten: Eingänge, Anliegen, Kommunikation und Betrieb',
+                  'Zentrum: Frankfurt + Omnichannel Kundenservice',
+                  'Visuelle Struktur macht die fachliche Beziehung sofort verständlich',
+                ]}
                 tone="dark"
               />
             </Reveal>
@@ -744,8 +783,13 @@ export function OmnichannelFrankfurtPage() {
               </h2>
               <PresentationMarker
                 number="07"
-                title="FAQ für Long-Tail- und AI-Fragen"
-                text="Die FAQ beantwortet konkrete Folgefragen. Genau solche präzisen Fragen werden in Google, ChatGPT, Perplexity und Gemini gestellt."
+                title="Long-Tail- und AI-Fragen"
+                subtitle="FAQ-Blöcke beantworten konkrete Folgefragen, die Käufer in Google und KI-Suchsystemen stellen."
+                points={[
+                  'Lokale Frage: Frankfurt als Standort- und Suchsignal',
+                  'Kauffrage: Software zuerst oder Zielbild zuerst?',
+                  'Einstiegsfrage: Wie klein kann ein erstes Projekt starten?',
+                ]}
               />
             </Reveal>
             <div className="faq-list">
@@ -776,8 +820,13 @@ export function OmnichannelFrankfurtPage() {
               </p>
               <PresentationMarker
                 number="08"
-                title="Kommerzielle Suchseite mit klarem nächsten Schritt"
-                text="Die Seite bleibt informativ, führt aber sauber zur Anfrage. Das macht sie für organische Suche und Leadgenerierung gleichzeitig nutzbar."
+                title="Informieren, qualifizieren, konvertieren"
+                subtitle="Eine gute SEO-Seite beantwortet Fragen und führt dann natürlich zum nächsten geschäftlichen Schritt."
+                points={[
+                  'Kontakttext wiederholt das konkrete Omnichannel-Problem',
+                  'Formular fragt nach Ausgangslage statt nur nach Kontaktdaten',
+                  'CTA bleibt sichtbar, ohne den Inhalt zu verdrängen',
+                ]}
                 tone="dark"
               />
               <div className="mt-8 grid gap-3 rounded-lg border border-white/[0.12] bg-white/[0.08] p-5">
