@@ -14,15 +14,17 @@ import {
   ShieldCheck,
   Workflow,
 } from 'lucide-react'
-import { motion, useReducedMotion } from 'framer-motion'
-import { useEffect } from 'react'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useEffect, useRef } from 'react'
+import anliegenmanagementImage from './assets/images/anliegenmanagement.webp'
+import itStrategyImage from './assets/images/it-strategy.webp'
 import logo from './assets/images/pentadoc-logo-small.webp'
 import omnichannelImage from './assets/images/omnichannel.webp'
 import officeImage from './assets/images/pentadoc-office.webp'
 import { ContactForm } from './components/ContactForm'
 import { Reveal } from './components/Reveal'
 import { StickyCTA } from './components/StickyCTA'
-import { contact, proofStats, referenceNames } from './content'
+import { contact, navLinks, proofStats, referenceNames } from './content'
 
 const pageUrl = 'https://digitalmovementuk.github.io/Pentadoc-Prototype/omnichannel-kundenservice-frankfurt/'
 const pageTitle = 'Omnichannel Kundenservice Frankfurt | Pentadoc AG'
@@ -31,11 +33,14 @@ const pageDescription =
 const pageImage = 'https://digitalmovementuk.github.io/Pentadoc-Prototype/og-omnichannel-frankfurt.png'
 
 type PresentationMarkerProps = {
+  eyebrow: string
   number: string
   title: string
   subtitle: string
+  relevance: string
   points: string[]
   tone?: 'light' | 'dark'
+  pointer?: 'left' | 'right' | 'top'
 }
 
 const readinessCards = [
@@ -226,24 +231,17 @@ function SeoNavigation() {
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
       <nav
         className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-lg border border-white/[0.55] bg-white/[0.90] px-3 shadow-nav backdrop-blur-xl sm:h-[72px] sm:px-5"
-        aria-label="Seitennavigation"
+        aria-label="Hauptnavigation"
       >
-        <a className="focus-ring flex min-h-11 items-center rounded-md" href="./">
+        <a className="focus-ring flex min-h-11 items-center rounded-md" href="../">
           <img className="h-8 w-auto sm:h-9" src={logo} alt="Pentadoc AG" width="177" height="48" />
         </a>
         <div className="hidden items-center gap-1 lg:flex">
-          <a className="nav-link" href="#loesung">
-            Lösung
-          </a>
-          <a className="nav-link" href="#frankfurt">
-            Frankfurt
-          </a>
-          <a className="nav-link" href="#vorgehen">
-            Vorgehen
-          </a>
-          <a className="nav-link" href="#faq">
-            FAQ
-          </a>
+          {navLinks.map((link) => (
+            <a key={link.href} className="nav-link" href={`../${link.href}`}>
+              {link.label}
+            </a>
+          ))}
         </div>
         <div className="flex items-center gap-2">
           <a className="hidden nav-phone sm:inline-flex" href="tel:+4993126079110">
@@ -280,21 +278,186 @@ function OmnichannelMap() {
   )
 }
 
-function PresentationMarker({ number, title, subtitle, points, tone = 'light' }: PresentationMarkerProps) {
+function IntentSearchVisual() {
+  return (
+    <div className="seo-visual-card search-intent-visual" aria-label="SEO- und AI-Suchintention">
+      <div className="visual-window-bar">
+        <span />
+        <span />
+        <span />
+        <strong>Suchseite</strong>
+      </div>
+      <div className="visual-query-row">
+        <Search className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
+        <span>omnichannel kundenservice frankfurt</span>
+      </div>
+      <div className="visual-intent-grid">
+        {['Service', 'Ort', 'Zielgruppe', 'Anfrage'].map((item) => (
+          <div key={item}>
+            <span>{item}</span>
+            <strong>
+              {item === 'Service' && 'Omnichannel'}
+              {item === 'Ort' && 'Frankfurt'}
+              {item === 'Zielgruppe' && 'Versicherer'}
+              {item === 'Anfrage' && 'Erstgespräch'}
+            </strong>
+          </div>
+        ))}
+      </div>
+      <div className="visual-answer-card">
+        <span>Zitierfähige Antwort</span>
+        <p>
+          Definition, Zielgruppe, Standortbezug und Ergebnis stehen zuerst. Danach folgt die fachliche Tiefe.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function ChannelSystemVisual() {
+  return (
+    <div className="seo-photo-visual" aria-label="Omnichannel System aus Kanälen und Anliegen">
+      <img
+        src={anliegenmanagementImage}
+        alt="Visualisierung vernetzter Anliegenbearbeitung"
+        width="1027"
+        height="1013"
+        loading="lazy"
+      />
+      <div className="channel-system-card">
+        <span>Kanalsteuerung</span>
+        <strong>Anliegen als gemeinsamer Nenner</strong>
+        <div className="channel-chip-grid">
+          {['Telefon', 'E-Mail', 'Portal', 'App', 'Brief', 'CCM'].map((item) => (
+            <small key={item}>{item}</small>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function FrankfurtMarketVisual() {
+  return (
+    <div className="seo-photo-visual seo-photo-visual-compact" aria-label="Frankfurt und Rhein-Main als Zielmarkt">
+      <img
+        src={itStrategyImage}
+        alt="Strategische IT- und Prozessberatung für Omnichannel Kundenservice"
+        width="1600"
+        height="900"
+        loading="lazy"
+      />
+      <div className="geo-visual-card">
+        <MapPin className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
+        <strong>Frankfurt am Main</strong>
+        <span>Finanz-, Versicherungs- und Serviceprozesse mit hoher Suchrelevanz.</span>
+      </div>
+    </div>
+  )
+}
+
+function QuestionArchitectureVisual() {
+  return (
+    <div className="seo-visual-card question-architecture-visual" aria-label="Fragearchitektur für Entscheider">
+      <div className="question-architecture-center">
+        <span>Käuferfragen</span>
+        <strong>Antwortstruktur</strong>
+      </div>
+      {questionClusters.map((cluster, index) => (
+        <div key={cluster.title} className={`question-orbit question-orbit-${index + 1}`}>
+          <span>{cluster.title}</span>
+          <small>{cluster.questions.length} konkrete Suchfragen</small>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function RoadmapVisual() {
+  return (
+    <div className="seo-visual-card roadmap-visual" aria-label="Omnichannel Roadmap">
+      {approachSteps.map((step, index) => (
+        <div key={step.title} className="roadmap-step-visual">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <strong>{step.title}</strong>
+            <small>{step.text}</small>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function FaqSearchVisual() {
+  return (
+    <div className="seo-visual-card faq-search-visual" aria-label="FAQ- und AI-Search-Antworten">
+      <div className="visual-query-row">
+        <MessageSquareText className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
+        <span>Welche Fragen beantwortet die Seite?</span>
+      </div>
+      <div className="faq-answer-preview">
+        <span>AI-ready Antwortblock</span>
+        <p>Kurze Frage. Direkte Antwort. Danach klare fachliche Einordnung.</p>
+      </div>
+      <div className="faq-visual-stack">
+        {faqItems.slice(0, 3).map((item) => (
+          <div key={item.question}>
+            <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
+            <span>{item.question}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function PresentationMarker({
+  eyebrow,
+  number,
+  title,
+  subtitle,
+  relevance,
+  points,
+  tone = 'light',
+  pointer = 'left',
+}: PresentationMarkerProps) {
+  const pointerClass = {
+    left: 'presentation-marker-left',
+    right: 'presentation-marker-right',
+    top: 'presentation-marker-top',
+  }[pointer]
   const reduceMotion = useReducedMotion()
+  const markerRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: markerRef,
+    offset: ['start 98%', 'center 56%'],
+  })
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 62,
+    damping: 20,
+    mass: 0.65,
+  })
+  const opacity = useTransform(smoothProgress, [0, 0.2, 0.62, 1], [0.18, 0.38, 0.9, 1])
+  const y = useTransform(smoothProgress, [0, 1], [48, 0])
+  const scale = useTransform(smoothProgress, [0, 1], [0.97, 1])
+  const filter = useTransform(smoothProgress, [0, 0.45, 0.8, 1], ['blur(14px)', 'blur(7px)', 'blur(0px)', 'blur(0px)'])
 
   return (
     <motion.aside
-      className={`presentation-marker ${tone === 'dark' ? 'presentation-marker-dark' : ''}`}
-      initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.98 }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: false, amount: 0.54 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      aria-label={`Präsentationsmarker ${number}`}
+      ref={markerRef}
+      className={`presentation-marker ${pointerClass} ${tone === 'dark' ? 'presentation-marker-dark' : ''}`}
+      style={reduceMotion ? undefined : { opacity, y, scale, filter }}
+      aria-label={`${eyebrow} ${number}`}
     >
-      <span className="presentation-marker-label">Präsentationsmarker {number}</span>
+      <span className="presentation-marker-label">
+        {eyebrow} {number}
+      </span>
       <h3>{title}</h3>
       <p className="presentation-marker-subtitle">{subtitle}</p>
+      <p className="presentation-marker-relevance">
+        <strong>Relevanz für Ranking:</strong> {relevance}
+      </p>
       <ul>
         {points.map((point) => (
           <li key={point}>
@@ -412,7 +575,7 @@ export function OmnichannelFrankfurtPage() {
             <Reveal className="seo-hero-panel" delay={0.08}>
               <div className="seo-panel-top">
                 <Search className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
-              <div>
+                <div>
                   <span>Gesuchtes Thema</span>
                   <strong>omnichannel kundenservice frankfurt</strong>
                 </div>
@@ -436,14 +599,17 @@ export function OmnichannelFrankfurtPage() {
                 Entscheidungs-, Prozess- und IT-Themen für einen Omnichannel-Fahrplan.
               </p>
               <PresentationMarker
+                eyebrow="SEO-Strategie"
                 number="01"
-                title="Intent-first Hero"
-                subtitle="Der erste Bildschirm beantwortet sofort: Was ist das Thema, für wen ist es relevant und wo wird gesucht?"
+                title="Erster Bildschirm mit klarer Suchabsicht"
+                subtitle="Der Einstieg beantwortet sofort: Was ist das Thema, für wen ist es relevant und wo wird gesucht?"
+                relevance="Google und KI-Systeme erkennen schneller, dass diese Seite exakt zur Suchanfrage, Zielgruppe und Region passt."
                 points={[
                   'Suchbegriff sichtbar: „omnichannel kundenservice frankfurt“',
                   'Ort, Service und Zielgruppe als eigene Felder im Hero',
                   'CTA direkt neben der Suchintention statt erst am Seitenende',
                 ]}
+                pointer="left"
               />
             </Reveal>
           </div>
@@ -466,22 +632,30 @@ export function OmnichannelFrankfurtPage() {
 
         <section className="section bg-fog" aria-labelledby="intent-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Reveal className="section-heading">
-              <p className="section-kicker text-brand-grey">Suchintention</p>
-              <h2 id="intent-title" className="section-title">
-                Was hinter dem Suchbegriff wirklich geklärt werden muss.
-              </h2>
-              <PresentationMarker
-                number="02"
-                title="Suchintention vor Fließtext"
-                subtitle="Google und AI Search verstehen schneller, welche Nutzerfrage die Seite bedient."
-                points={[
-                  'Drei Karten trennen Thema, Direktantwort und Kaufabsicht',
-                  'Die Seite erklärt zuerst die Entscheidungssituation, nicht das Unternehmen',
-                  'Das hilft auch im Pitch: der Kunde sieht sofort die Logik hinter der Seite',
-                ]}
-              />
-            </Reveal>
+            <div className="seo-split seo-split-visual-left">
+              <Reveal>
+                <IntentSearchVisual />
+              </Reveal>
+              <Reveal className="seo-split-copy">
+                <p className="section-kicker text-brand-grey">Suchintention</p>
+                <h2 id="intent-title" className="section-title">
+                  Was hinter dem Suchbegriff wirklich geklärt werden muss.
+                </h2>
+                <PresentationMarker
+                  eyebrow="Suchintention"
+                  number="02"
+                  title="Suchintention vor Fließtext"
+                  subtitle="Google und KI-Suchsysteme verstehen schneller, welche Nutzerfrage die Seite bedient."
+                  relevance="Eine klare Intent-Struktur erhöht die Chance, für kommerzielle Suchanfragen und KI-Antworten als passende Quelle verstanden zu werden."
+                  points={[
+                    'Drei Karten trennen Thema, Direktantwort und Kaufabsicht',
+                    'Die Seite erklärt zuerst die Entscheidungssituation, nicht das Unternehmen',
+                    'Das hilft auch im Pitch: der Kunde sieht sofort die Logik hinter der Seite',
+                  ]}
+                  pointer="left"
+                />
+              </Reveal>
+            </div>
             <div className="intent-grid">
               {intentCards.map((card) => (
                 <Reveal key={card.title}>
@@ -518,19 +692,25 @@ export function OmnichannelFrankfurtPage() {
                 ))}
               </div>
               <PresentationMarker
+                eyebrow="Google-Suche"
                 number="03"
-                title="Topical Authority statt Keyword-Fülltext"
+                title="Themenautorität statt Keyword-Fülltext"
                 subtitle="Die Copy baut ein semantisches Themenfeld auf, damit die Seite mehr als nur ein einzelnes Keyword abdeckt."
+                relevance="Breite fachliche Abdeckung signalisiert Google, dass die Seite das Thema vollständig behandelt und nicht nur ein Keyword wiederholt."
                 points={[
                   'Omnichannel wird mit Anliegenmanagement, Input Management, CCM und IT-Strategie verbunden',
                   'Problemkarten zeigen echte Servicebrüche statt generischer Marketingaussagen',
                   'Proof-Zahlen geben der Seite fachliche Glaubwürdigkeit',
                 ]}
+                pointer="right"
               />
             </Reveal>
             <div className="grid gap-4">
+              <Reveal delay={0.04}>
+                <ChannelSystemVisual />
+              </Reveal>
               {painPoints.map((item, index) => (
-                <Reveal key={item.title} delay={index * 0.04}>
+                <Reveal key={item.title} delay={0.08 + index * 0.04}>
                   <article className="signal-panel">
                     <span>0{index + 1}</span>
                     <div>
@@ -567,14 +747,17 @@ export function OmnichannelFrankfurtPage() {
                   </p>
                 </div>
                 <PresentationMarker
+                  eyebrow="KI-Suche"
                   number="04"
-                  title="Zitierfähige Kurzantwort"
-                  subtitle="Die Antwort ist so geschrieben, dass sie in AI Search, Snippets und Verkaufsgesprächen direkt zitierbar ist."
+                  title="Kurzantwort, die KI-Systeme zitieren können"
+                  subtitle="Die Antwort ist so geschrieben, dass sie in KI-Suche, Snippets und Verkaufsgesprächen direkt zitierbar ist."
+                  relevance="KI-Suchsysteme bevorzugen klare Antwortblöcke, weil sie diese leichter extrahieren, zusammenfassen und als Quelle nennen können."
                   points={[
                     'Definition steht vor der langen Argumentation',
                     'Ein Satz nennt Zielgruppe, Kanäle, Prozess und Ergebnis',
                     'Danach folgt die Struktur: Definition, Standort, Beratung, Roadmap, Ergebnis',
                   ]}
+                  pointer="top"
                 />
                 {seoSections.map((section) => (
                   <section key={section.title}>
@@ -588,6 +771,7 @@ export function OmnichannelFrankfurtPage() {
               </article>
 
               <aside className="seo-aside" aria-label="Omnichannel Beratung zusammengefasst">
+                <FrankfurtMarketVisual />
                 <div className="seo-aside-card">
                   <MapPin className="h-6 w-6 text-brand-yellow" aria-hidden="true" />
                   <h3>Frankfurt und Rhein-Main</h3>
@@ -619,22 +803,30 @@ export function OmnichannelFrankfurtPage() {
 
         <section className="section bg-white" aria-labelledby="question-cluster-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Reveal className="section-heading">
-              <p className="section-kicker text-brand-grey">Entscheiderfragen</p>
-              <h2 id="question-cluster-title" className="section-title">
-                Die Seite deckt Strategie, Betrieb und Technik in einer klaren Fragearchitektur ab.
-              </h2>
-              <PresentationMarker
-                number="05"
-                title="Buyer-Fragen als Copy-Architektur"
-                subtitle="Die Seite ist entlang der Fragen aufgebaut, die Entscheider vor einer Anfrage wirklich stellen."
-                points={[
-                  'Strategiefragen für Management und Fachbereich',
-                  'Operative Fragen für Service, Backoffice und Prozessverantwortliche',
-                  'Technische Fragen für IT, Daten, Schnittstellen und Migration',
-                ]}
-              />
-            </Reveal>
+            <div className="seo-split seo-split-visual-left">
+              <Reveal>
+                <QuestionArchitectureVisual />
+              </Reveal>
+              <Reveal className="seo-split-copy">
+                <p className="section-kicker text-brand-grey">Entscheiderfragen</p>
+                <h2 id="question-cluster-title" className="section-title">
+                  Die Seite deckt Strategie, Betrieb und Technik in einer klaren Fragearchitektur ab.
+                </h2>
+                <PresentationMarker
+                  eyebrow="Inhaltsarchitektur"
+                  number="05"
+                  title="Käuferfragen als Inhaltsarchitektur"
+                  subtitle="Die Seite ist entlang der Fragen aufgebaut, die Entscheider vor einer Anfrage wirklich stellen."
+                  relevance="Wenn die Seite echte Entscheidungsfragen beantwortet, gewinnt sie Relevanz für mehrere Suchphrasen und für dialogartige KI-Suchen."
+                  points={[
+                    'Strategiefragen für Management und Fachbereich',
+                    'Operative Fragen für Service, Backoffice und Prozessverantwortliche',
+                    'Technische Fragen für IT, Daten, Schnittstellen und Migration',
+                  ]}
+                  pointer="left"
+                />
+              </Reveal>
+            </div>
             <div className="question-grid">
               {questionClusters.map((cluster) => (
                 <Reveal key={cluster.title}>
@@ -682,15 +874,18 @@ export function OmnichannelFrankfurtPage() {
                 </li>
               </ul>
               <PresentationMarker
+                eyebrow="Semantische Struktur"
                 number="06"
-                title="Entity Mapping sichtbar gemacht"
+                title="Fachbegriffe als verbundenes System"
                 subtitle="Wichtige Such- und AI-Entitäten werden als zusammenhängendes System erklärt, nicht als lose Begriffe."
+                relevance="Suchmaschinen und KI-Systeme verstehen die Seite besser, wenn Begriffe wie Kanäle, Anliegen, Kommunikation und Betrieb logisch verbunden sind."
                 points={[
                   'Knoten: Eingänge, Anliegen, Kommunikation und Betrieb',
                   'Zentrum: Frankfurt + Omnichannel Kundenservice',
                   'Visuelle Struktur macht die fachliche Beziehung sofort verständlich',
                 ]}
                 tone="dark"
+                pointer="right"
               />
             </Reveal>
             <Reveal delay={0.08}>
@@ -701,12 +896,21 @@ export function OmnichannelFrankfurtPage() {
 
         <section id="vorgehen" className="section bg-white" aria-labelledby="approach-title">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <Reveal className="section-heading">
-              <p className="section-kicker text-brand-grey">Vorgehen</p>
-              <h2 id="approach-title" className="section-title">
-                Vom Suchbegriff zur entscheidbaren Omnichannel Roadmap.
-              </h2>
-            </Reveal>
+            <div className="seo-split seo-split-visual-left">
+              <Reveal>
+                <RoadmapVisual />
+              </Reveal>
+              <Reveal className="seo-split-copy">
+                <p className="section-kicker text-brand-grey">Vorgehen</p>
+                <h2 id="approach-title" className="section-title">
+                  Vom Suchbegriff zur entscheidbaren Omnichannel Roadmap.
+                </h2>
+                <p className="mt-5 text-lg leading-8 text-graphite">
+                  Die visuelle Roadmap zeigt, dass die Seite nicht nur ranken soll. Sie führt vom
+                  Suchinteresse über fachliche Klärung bis zu einem konkreten Beratungsfahrplan.
+                </p>
+              </Reveal>
+            </div>
             <div className="process-grid">
               {approachSteps.map((step, index) => (
                 <Reveal key={step.title} delay={index * 0.04}>
@@ -775,23 +979,31 @@ export function OmnichannelFrankfurtPage() {
         </section>
 
         <section id="faq" className="section bg-white" aria-labelledby="faq-title">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <Reveal className="text-center">
-              <p className="section-kicker text-brand-grey">FAQ</p>
-              <h2 id="faq-title" className="section-title">
-                Häufige Fragen zu Omnichannel Kundenservice Frankfurt.
-              </h2>
-              <PresentationMarker
-                number="07"
-                title="Long-Tail- und AI-Fragen"
-                subtitle="FAQ-Blöcke beantworten konkrete Folgefragen, die Käufer in Google und KI-Suchsystemen stellen."
-                points={[
-                  'Lokale Frage: Frankfurt als Standort- und Suchsignal',
-                  'Kauffrage: Software zuerst oder Zielbild zuerst?',
-                  'Einstiegsfrage: Wie klein kann ein erstes Projekt starten?',
-                ]}
-              />
-            </Reveal>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="seo-split">
+              <Reveal className="seo-split-copy">
+                <p className="section-kicker text-brand-grey">FAQ</p>
+                <h2 id="faq-title" className="section-title">
+                  Häufige Fragen zu Omnichannel Kundenservice Frankfurt.
+                </h2>
+                <PresentationMarker
+                  eyebrow="Fragenabdeckung"
+                  number="07"
+                  title="FAQ für lange Suchfragen und KI-Antworten"
+                  subtitle="FAQ-Blöcke beantworten konkrete Folgefragen, die Käufer in Google und KI-Suchsystemen stellen."
+                  relevance="Direkte Fragen und Antworten erhöhen die Chance auf lange Suchanfragen, hervorgehobene Google-Antworten und verwendbare KI-Antworten."
+                  points={[
+                    'Lokale Frage: Frankfurt als Standort- und Suchsignal',
+                    'Kauffrage: Software zuerst oder Zielbild zuerst?',
+                    'Einstiegsfrage: Wie klein kann ein erstes Projekt starten?',
+                  ]}
+                  pointer="right"
+                />
+              </Reveal>
+              <Reveal>
+                <FaqSearchVisual />
+              </Reveal>
+            </div>
             <div className="faq-list">
               {faqItems.map((item) => (
                 <details key={item.question} className="faq-item">
@@ -819,15 +1031,18 @@ export function OmnichannelFrankfurtPage() {
                 oder Customer Communication Management ableiten.
               </p>
               <PresentationMarker
+                eyebrow="Lead-Strategie"
                 number="08"
-                title="Informieren, qualifizieren, konvertieren"
+                title="Vom Informationsbedarf zur qualifizierten Anfrage"
                 subtitle="Eine gute SEO-Seite beantwortet Fragen und führt dann natürlich zum nächsten geschäftlichen Schritt."
+                relevance="Ranking bringt nur Wert, wenn die Seite aus Sichtbarkeit eine passende Anfrage macht. Deshalb verbindet die Copy Beratungsthema und Kontaktgrund."
                 points={[
                   'Kontakttext wiederholt das konkrete Omnichannel-Problem',
                   'Formular fragt nach Ausgangslage statt nur nach Kontaktdaten',
                   'CTA bleibt sichtbar, ohne den Inhalt zu verdrängen',
                 ]}
                 tone="dark"
+                pointer="right"
               />
               <div className="mt-8 grid gap-3 rounded-lg border border-white/[0.12] bg-white/[0.08] p-5">
                 <a className="flex min-h-11 items-center gap-3 font-semibold text-white" href="tel:+4993126079110">
