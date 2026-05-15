@@ -60,7 +60,7 @@ function Homepage() {
             <img
               src={heroImage}
               alt=""
-              className="h-full w-full object-cover"
+              className="hero-media-img"
               width="1600"
               height="900"
               fetchPriority="high"
@@ -70,45 +70,52 @@ function Homepage() {
           <div className="hero-line-field" aria-hidden="true" />
 
           <div className="hero-shell">
-            <Reveal className="hero-copy">
-              <p className="section-kicker text-brand-yellow">{t.hero.kicker}</p>
-              <h1 id="hero-title" className="hero-title">
-                {t.hero.title}
-              </h1>
-              <p className="hero-lead">{t.hero.lead}</p>
+            <div className="hero-copy">
+              <div className="hero-copy-main">
+                <span className="hero-pill">
+                  <span className="hero-pill-dot" aria-hidden="true" />
+                  {t.hero.kicker}
+                </span>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-start">
-                <a className="btn-primary" href="#kontakt">
-                  {t.hero.primaryCta}
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </a>
-                <a className="btn-secondary-on-dark" href="#leistungen">
-                  {t.hero.secondaryCta}
-                </a>
+                <h1 id="hero-title" className="hero-title">
+                  <span className="hero-title-line hero-title-line-one">
+                    {t.hero.titleLine1}
+                    <span className="hero-title-gt" aria-hidden="true">&gt;</span>
+                  </span>
+                  <span className="hero-title-line hero-title-line-two">
+                    {t.hero.titleLine2}
+                  </span>
+                </h1>
+
+                <p className="hero-lead">{t.hero.lead}</p>
+
+                <div className="hero-actions">
+                  <a className="btn-primary" href="#kontakt">
+                    {t.hero.primaryCta}
+                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </a>
+                  <a className="btn-secondary-on-dark" href="#leistungen">
+                    {t.hero.secondaryCta}
+                  </a>
+                </div>
               </div>
 
-              <ul className="hero-checklist" aria-label={t.hero.checklistLabel}>
-                {t.hero.checklist.map((item) => (
-                  <li key={item}>
-                    <CheckCircle2 className="h-4 w-4 text-brand-yellow" aria-hidden="true" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="hero-metrics" aria-label={t.hero.metricsLabel}>
-                {t.proofStats.map((stat) => (
-                  <div key={stat.label} className="metric-card">
-                    <strong>{stat.value}</strong>
-                    <span>{stat.label}</span>
-                  </div>
+              <div className="hero-pillars" aria-label={t.hero.pillarsLabel}>
+                {t.hero.pillars.map((label) => (
+                  <span key={label} className="hero-pillar">
+                    {label}
+                  </span>
                 ))}
               </div>
-            </Reveal>
+            </div>
 
-            <Reveal className="hero-form-wrap" delay={0.08}>
+            <div className="hero-form-wrap">
               <ContactForm />
-            </Reveal>
+            </div>
+          </div>
+
+          <div className="hero-scroll-cue" aria-hidden="true">
+            <span />
           </div>
         </section>
 

@@ -42,12 +42,16 @@ export type Translations = {
   hero: {
     kicker: string
     title: string
+    titleLine1: string
+    titleLine2: string
     lead: string
     primaryCta: string
     secondaryCta: string
     checklistLabel: string
     checklist: string[]
     metricsLabel: string
+    pillarsLabel: string
+    pillars: string[]
   }
   proofStats: { value: string; label: string }[]
   references: {
@@ -293,7 +297,9 @@ const de: Translations = {
   hero: {
     kicker: 'Pentadoc AG',
     title: 'Digitale Transformation für Versicherer, die im Alltag funktioniert.',
-    lead: 'Herstellerunabhängige Unternehmensberatung für Input Management, Anliegenmanagement, Customer Communication Management, IT-Strategie, KI-Prototyping und Migration.',
+    titleLine1: 'Komplexe Transformation',
+    titleLine2: 'Klare Umsetzung.',
+    lead: 'Herstellerunabhängige Beratung für Versicherer und Krankenkassen — Input Management, Anliegenmanagement, CCM, IT-Strategie, KI-Prototyping und Migration.',
     primaryCta: 'Erstgespräch anfragen',
     secondaryCta: 'Leistungen ansehen',
     checklistLabel: 'Stärken von Pentadoc',
@@ -304,6 +310,8 @@ const de: Translations = {
       'Erstes Gespräch ohne Umwege',
     ],
     metricsLabel: 'Zahlen, Daten und Fakten',
+    pillarsLabel: 'Leistungsfokus',
+    pillars: ['Anliegen', 'Prozesse', 'Migration'],
   },
   proofStats: [
     { value: '25+', label: 'Jahre am Markt' },
@@ -878,7 +886,9 @@ const en: Translations = {
   hero: {
     kicker: 'Pentadoc AG',
     title: 'Digital transformation for insurers — built to hold up in daily operations.',
-    lead: 'Vendor-independent consulting for input management, case management, customer communication management, IT strategy, AI prototyping and migration.',
+    titleLine1: 'Complex transformation',
+    titleLine2: 'Clear delivery.',
+    lead: 'Vendor-independent consulting for insurers and health funds — input management, case management, CCM, IT strategy, AI prototyping and migration.',
     primaryCta: 'Request an intro call',
     secondaryCta: 'See our services',
     checklistLabel: 'What sets Pentadoc apart',
@@ -889,6 +899,8 @@ const en: Translations = {
       'A first conversation without detours',
     ],
     metricsLabel: 'Facts and figures',
+    pillarsLabel: 'Service focus',
+    pillars: ['Cases', 'Processes', 'Migration'],
   },
   proofStats: [
     { value: '25+', label: 'years in the market' },
