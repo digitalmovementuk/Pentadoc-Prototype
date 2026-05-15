@@ -5,7 +5,6 @@ import {
   MapPin,
   MessageSquareText,
   Phone,
-  Search,
   ShieldCheck,
 } from 'lucide-react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
@@ -379,15 +378,6 @@ export function OmnichannelFrankfurtPage() {
                 {t.seo.hero.title}
               </h1>
               <p className="seo-hero-lead">{t.seo.hero.lead}</p>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-start">
-                <a className="btn-primary" href="#kontakt">
-                  {t.seo.hero.primaryCta}
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </a>
-                <a className="btn-secondary-on-dark" href="#loesung">
-                  {t.seo.hero.secondaryCta}
-                </a>
-              </div>
               <ul className="seo-hero-checks" aria-label={t.seo.hero.kicker}>
                 {t.seo.hero.checks.map((check) => (
                   <li key={check}>
@@ -396,31 +386,26 @@ export function OmnichannelFrankfurtPage() {
                   </li>
                 ))}
               </ul>
-            </Reveal>
-
-            <Reveal className="seo-hero-panel" delay={0.08}>
-              <div className="seo-panel-top">
-                <Search className="h-5 w-5 text-brand-yellow" aria-hidden="true" />
-                <div>
-                  <span>{t.seo.hero.panel.topLabel}</span>
-                  <strong>{t.seo.hero.panel.topValue}</strong>
-                </div>
-              </div>
-              <div className="seo-panel-metrics">
-                {t.seo.hero.panel.metrics.map((m) => (
-                  <div key={m.label}>
-                    <span>{m.label}</span>
-                    <strong>{m.value}</strong>
-                  </div>
-                ))}
-              </div>
-              <p>{t.seo.hero.panel.body}</p>
+              <a className="seo-hero-secondary" href="#loesung">
+                {t.seo.hero.secondaryCta}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
               <PresentationMarker
                 copy={t.seo.markers.hero}
                 number="01"
                 pointer="left"
                 relevanceLabel={relevanceLabel}
               />
+            </Reveal>
+
+            <Reveal className="seo-hero-form-wrap" delay={0.08}>
+              <div className="hero__card">
+                <ContactForm
+                  variant="hero"
+                  defaultTopic="Omnichannel Kundenservice"
+                  mailSubjectOverride="Neue Anfrage – Omnichannel Kundenservice Frankfurt"
+                />
+              </div>
             </Reveal>
           </div>
         </section>

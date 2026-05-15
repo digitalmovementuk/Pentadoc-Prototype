@@ -542,6 +542,118 @@
     @apply mx-auto w-full max-w-lg rounded-lg border border-white/[0.16] bg-white/[0.92] p-5 text-ink shadow-form backdrop-blur-xl lg:mx-0;
   }
 
+  .seo-hero-form-wrap {
+    @apply mx-auto w-full max-w-lg lg:mx-0;
+    animation: slide-in-from-right 0.8s cubic-bezier(0.85, 0, 0, 1) 0.32s both;
+  }
+
+  .seo-hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.6rem 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.32);
+    transition: color 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .seo-hero-secondary:hover {
+    color: #ffcc00;
+    border-color: #ffcc00;
+  }
+
+  .seo-hero-secondary svg {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .seo-hero-secondary:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* High-conversion hero form card on the SEO landing page */
+  .form-card-hero {
+    color: #ffffff;
+  }
+
+  .form-card-hero .form-card-header h2 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  @media (min-width: 640px) {
+    .form-card-hero .form-card-header h2 {
+      font-size: 1.65rem;
+    }
+  }
+
+  .form-card-hero .form-card-header .section-kicker {
+    color: #ffcc00;
+  }
+
+  .form-card-hero .form-card-header p {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .form-card-hero .form-label {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .form-card-hero .form-field {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+    min-height: 46px;
+  }
+
+  .form-card-hero .form-field::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  .form-card-hero .form-field:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ffcc00;
+    box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.22);
+  }
+
+  .form-card-hero .btn-primary {
+    background: #ffcc00;
+    border-color: #ffcc00;
+    color: #141414;
+    min-height: 52px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .form-card-hero .btn-primary:hover {
+    background: #ffd633;
+    border-color: #ffd633;
+  }
+
+  .form-trust {
+    margin-top: 0.85rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.74rem;
+    line-height: 1.4;
+  }
+
+  .form-trust svg {
+    margin-top: 0.18rem;
+    color: #ffcc00;
+  }
+
   .seo-panel-top {
     @apply flex items-center gap-3 rounded-md bg-ink p-4 text-white;
   }
@@ -1463,10 +1575,21 @@
   .seo-hero-shell {
     min-height: auto;
     padding-top: 7.5rem;
+    padding-bottom: 3rem;
   }
 
   .seo-hero-title {
     font-size: 2.5rem;
+  }
+
+  /* On mobile the SEO hero prioritises the form, so the in-hero
+     presentation marker is dropped to keep the form above the fold */
+  .seo-hero-copy .presentation-marker {
+    display: none;
+  }
+
+  .seo-hero-secondary {
+    margin-inline: auto;
   }
 
   .footer {

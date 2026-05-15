@@ -117,6 +117,11 @@ export type Translations = {
     headerKicker: string
     headerTitle: string
     headerSubtitle: string
+    heroKicker: string
+    heroTitle: string
+    heroSubtitle: string
+    heroSubmit: string
+    heroTrust: string
     nameLabel: string
     companyLabel: string
     emailLabel: string
@@ -480,6 +485,11 @@ const de: Translations = {
     headerKicker: 'Erstgespräch anfragen',
     headerTitle: 'In 30 Sekunden zur passenden Einordnung.',
     headerSubtitle: 'Kurz schildern, worum es geht. Die Anfrage wird direkt an das zuständige Projektpostfach gesendet.',
+    heroKicker: 'Kostenloses Erstgespräch',
+    heroTitle: 'Antwort innerhalb von 24 Stunden.',
+    heroSubtitle: 'Kurz die Ausgangslage schildern. Wir melden uns mit einer ersten fachlichen Einschätzung — direkt, ohne Umwege.',
+    heroSubmit: 'Anfrage senden',
+    heroTrust: 'Kein Newsletter. Keine Datenweitergabe. Antwort meist binnen 24 Std.',
     nameLabel: 'Name',
     companyLabel: 'Unternehmen',
     emailLabel: 'E-Mail',
@@ -1025,6 +1035,11 @@ const en: Translations = {
     headerKicker: 'Request an intro call',
     headerTitle: '30 seconds to the right framing.',
     headerSubtitle: 'A short note about what is going on. The request goes straight to the right project inbox.',
+    heroKicker: 'Free intro call',
+    heroTitle: 'A reply within 24 hours.',
+    heroSubtitle: 'Tell us the situation in a few lines. We come back with a first expert take — direct, no detours.',
+    heroSubmit: 'Send request',
+    heroTrust: 'No newsletter. No data sharing. Reply usually within 24 hours.',
     nameLabel: 'Name',
     companyLabel: 'Company',
     emailLabel: 'Email',
