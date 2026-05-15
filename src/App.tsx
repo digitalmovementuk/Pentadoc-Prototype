@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   CheckCircle2,
@@ -15,6 +15,8 @@ import itStrategyImage from './assets/images/it-strategy.webp'
 import kununuBadge from './assets/images/kununu-2026.png'
 import logo from './assets/images/pentadoc-logo-small.webp'
 import officeImage from './assets/images/pentadoc-office.webp'
+
+const HERO_VIDEO_SRC = `${import.meta.env.BASE_URL}hero-background.mp4`
 import { ContactForm } from './components/ContactForm'
 import { Navbar } from './components/Navbar'
 import { Reveal } from './components/Reveal'
@@ -43,6 +45,8 @@ function App() {
 function Homepage() {
   const t = useT()
   const { lang } = useLang()
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
+  const [isVideoPaused, setIsVideoPaused] = useState(false)
 
   useEffect(() => {
     document.title = t.pageTitle
@@ -51,70 +55,98 @@ function Homepage() {
     document.documentElement.lang = lang
   }, [t, lang])
 
+  const toggleVideo = () => {
+    const v = heroVideoRef.current
+    if (!v) return
+    if (v.paused) {
+      v.play()
+      setIsVideoPaused(false)
+    } else {
+      v.pause()
+      setIsVideoPaused(true)
+    }
+  }
+  const videoToggleLabel = lang === 'de'
+    ? (isVideoPaused ? 'Video abspielen' : 'Video pausieren')
+    : (isVideoPaused ? 'Play video' : 'Pause video')
+
   return (
     <div id="top" className="min-h-screen bg-fog text-ink">
       <Navbar />
       <main id="main-content">
-        <section className="hero-section" aria-labelledby="hero-title">
-          <div className="hero-media" data-testid="hero-media" aria-hidden="true">
-            <img
-              src={heroImage}
-              alt=""
-              className="hero-media-img"
-              width="1600"
-              height="900"
-              fetchPriority="high"
-            />
+        <section className="hero" id="top" aria-labelledby="hero-title">
+          <div className="hero__video-shell" aria-hidden="true">
+            <video
+              ref={heroVideoRef}
+              className="hero__video"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              disablePictureInPicture
+              poster={heroImage}
+            >
+              <source src={HERO_VIDEO_SRC} type="video/mp4" />
+            </video>
           </div>
-          <div className="hero-scrim" aria-hidden="true" />
-          <div className="hero-line-field" aria-hidden="true" />
+          <button
+            className={`hero__media-control ${isVideoPaused ? 'is-paused' : ''}`}
+            type="button"
+            aria-label={videoToggleLabel}
+            onClick={toggleVideo}
+          >
+            <span className="hero__media-icon" aria-hidden="true" />
+          </button>
 
-          <div className="hero-shell">
-            <div className="hero-copy">
-              <div className="hero-copy-main">
-                <span className="hero-pill">
-                  <span className="hero-pill-dot" aria-hidden="true" />
+          <div className="hero__grid">
+            <div className="hero__copy">
+              <div className="hero__copy-main">
+                <span className="pill pill--dark pill--brand">
+                  <span className="pill__dot" aria-hidden="true" />
                   {t.hero.kicker}
                 </span>
 
-                <h1 id="hero-title" className="hero-title">
-                  <span className="hero-title-line hero-title-line-one">
+                <h1 id="hero-title" className="hero__title">
+                  <span className="hero__title-line hero__title-line--one">
                     {t.hero.titleLine1}
-                    <span className="hero-title-gt" aria-hidden="true">&gt;</span>
+                    <span className="hero__gt" aria-hidden="true">&gt;</span>
                   </span>
-                  <span className="hero-title-line hero-title-line-two">
+                  <span className="hero__title-line hero__title-line--two">
                     {t.hero.titleLine2}
                   </span>
                 </h1>
 
-                <p className="hero-lead">{t.hero.lead}</p>
+                <h2 className="hero__lead">{t.hero.lead}</h2>
 
-                <div className="hero-actions">
-                  <a className="btn-primary" href="#kontakt">
+                <div className="hero__actions">
+                  <a href="#kontakt" className="btn btn--accent">
                     {t.hero.primaryCta}
-                    <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    <ArrowRight className="btn__arrow" aria-hidden="true" />
                   </a>
-                  <a className="btn-secondary-on-dark" href="#leistungen">
+                  <a href="#leistungen" className="btn btn--ghost-on-dark">
                     {t.hero.secondaryCta}
                   </a>
                 </div>
               </div>
 
-              <div className="hero-pillars" aria-label={t.hero.pillarsLabel}>
+              <div className="hero__shapes" aria-label={t.hero.pillarsLabel}>
                 {t.hero.pillars.map((label) => (
-                  <span key={label} className="hero-pillar">
+                  <span key={label} className="hero__shape">
                     {label}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="hero-form-wrap">
-              <ContactForm />
+            <div className="hero__form-wrap">
+              <div className="hero__card">
+                <ContactForm />
+              </div>
             </div>
           </div>
 
-          <div className="hero-scroll-cue" aria-hidden="true">
+          <div className="hero__scroll-cue" aria-hidden="true">
             <span />
           </div>
         </section>
