@@ -53,7 +53,7 @@ const seoSections = [
     title: 'Was ist Omnichannel Kundenservice Beratung in Frankfurt?',
     body: [
       'Omnichannel Kundenservice Beratung in Frankfurt hilft Versicherern, Krankenkassen und Finanzdienstleistern dabei, Telefon, E-Mail, Portal, App, Dokumente und ausgehende Kommunikation zu einem einheitlichen Serviceprozess zu verbinden. Entscheidend sind nicht möglichst viele Kanäle, sondern ein gemeinsames Bild vom Kundenanliegen, klare Zuständigkeiten, anschlussfähige IT und eine realistische Roadmap.',
-      'Wer nach Omnichannel Kundenservice Frankfurt sucht, sucht selten nur eine Software. Meist steht dahinter eine konkrete Frage im Betrieb: Wie lassen sich Anruf, Brief, E-Mail, Portal, Chat, App und ausgehende Kommunikation so verbinden, dass Kunden nicht jedes Mal von vorne anfangen müssen? Für Versicherer, Krankenkassen und Finanzdienstleister im Rhein-Main-Gebiet ist diese Frage besonders wichtig, weil viele Produkte erklärungsbedürftig sind, Unterlagen rechtssicher verarbeitet werden müssen und Serviceprozesse häufig über mehrere Fachbereiche laufen.',
+      'Versicherer, Krankenkassen und Finanzdienstleister suchen selten nur eine neue Software. Meist steht dahinter eine konkrete Frage im Betrieb: Wie lassen sich Anruf, Brief, E-Mail, Portal, Chat, App und ausgehende Kommunikation so verbinden, dass Kunden nicht jedes Mal von vorne anfangen müssen? Im Rhein-Main-Gebiet ist diese Frage besonders wichtig, weil viele Produkte erklärungsbedürftig sind, Unterlagen rechtssicher verarbeitet werden müssen und Serviceprozesse häufig über mehrere Fachbereiche laufen.',
       'Ein guter Omnichannel-Ansatz beginnt deshalb nicht beim Kanal. Er beginnt beim Anliegen. Welche Information kommt an? Was will die versicherte Person erreichen? Welche Nachweise fehlen? Welche Antwort ist fachlich, technisch und regulatorisch möglich? Erst wenn diese Fragen sauber beantwortet werden, können Portale, Contact Center, Dokumentenprozesse, Customer Communication Management und Workflow-Automation sinnvoll zusammenspielen.',
     ],
   },
@@ -61,7 +61,7 @@ const seoSections = [
     title: 'Warum der Standort Frankfurt ein starkes Thema für Omnichannel ist',
     body: [
       'Frankfurt ist ein dichter Markt für Versicherungen, Banken, Dienstleister, Beratung, IT und regulierte Geschäftsmodelle. Viele Teams arbeiten mit hohen Fallzahlen, verteilten Zuständigkeiten und gewachsenen Systemlandschaften. Genau hier entsteht der typische Omnichannel-Druck: Kunden erwarten schnelle Rückmeldung, der Betrieb muss wirtschaftlich bleiben und die IT darf nicht durch unklare Anforderungen überlastet werden.',
-      'Für Organisationen in Frankfurt und Rhein-Main ist ein lokaler Suchbegriff wie Omnichannel Kundenservice Frankfurt daher ein guter Einstieg in eine geschäftliche Diskussion. Gemeint ist nicht, dass jede Lösung physisch aus Frankfurt kommen muss. Entscheidend ist, dass die Beratung die Anforderungen eines anspruchsvollen Finanz- und Versicherungsstandorts versteht: hohe Erwartungen an Servicequalität, saubere Dokumentation, nachvollziehbare Entscheidungen und stabile Umsetzung in bestehenden Strukturen.',
+      'Für Organisationen in Frankfurt und Rhein-Main zählt eine Beratung, die die Anforderungen eines anspruchsvollen Finanz- und Versicherungsstandorts versteht: hohe Erwartungen an Servicequalität, saubere Dokumentation, nachvollziehbare Entscheidungen und stabile Umsetzung in bestehenden Strukturen.',
     ],
   },
   {
@@ -84,7 +84,7 @@ const seoSections = [
     body: [
       'Ein reifer Omnichannel Kundenservice zeigt sich nicht an der Zahl der Kanäle. Er zeigt sich daran, dass Kundenanliegen erkennbar, bearbeitbar und nachvollziehbar sind. Kunden erhalten konsistente Informationen. Mitarbeitende sehen den Kontext. Dokumente und Nachrichten sind nicht losgelöst vom Prozess. Führungskräfte können erkennen, wo Rückstände, Qualitätsthemen oder Automatisierungspotenziale liegen.',
       'Für Versicherer und Krankenkassen ist diese Reife besonders wertvoll, weil Servicequalität, Effizienz und Vertrauen zusammenhängen. Wenn ein Schaden, eine Mitgliedschaft, ein Leistungsfall oder eine Vertragsänderung über mehrere Kontakte läuft, zählt nicht der einzelne Kanal. Es zählt das durchgängige Erlebnis. Genau dafür braucht es eine Beratung, die Omnichannel, Anliegenmanagement und technische Machbarkeit zusammenbringt.',
-      'Für Frankfurt bedeutet das: Die Seite adressiert nicht nur ein lokales Keyword, sondern einen realen Bedarf von Organisationen, die zwischen Kundenerwartung, regulatorischer Sorgfalt und gewachsenen Systemlandschaften entscheiden müssen.',
+      'Für Unternehmen in Frankfurt bedeutet das: Omnichannel ist kein reines Kanalprojekt, sondern eine Entscheidung darüber, wie Kundenerwartung, regulatorische Sorgfalt und gewachsene Systemlandschaften zusammengebracht werden.',
     ],
   },
 ]

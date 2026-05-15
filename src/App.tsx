@@ -529,11 +529,11 @@ function App() {
               </ul>
             </div>
           </div>
-          <div className="footer-bottom">
-            <p>© 2026 Pentadoc AG. Homepage-Neugestaltung.</p>
-            <p>Faktenbasis: öffentlich verfügbare Informationen auf pentadoc.com.</p>
-          </div>
-        </footer>
+        <div className="footer-bottom">
+          <p>© 2026 Pentadoc AG.</p>
+          <p>Digitale Transformation für Versicherer, Krankenkassen und Finanzdienstleister.</p>
+        </div>
+      </footer>
       </main>
       <StickyCTA />
     </div>
