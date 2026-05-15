@@ -7,6 +7,7 @@
     "dev": "vite",
     "generate:assets": "node scripts/generate-assets.mjs",
     "build": "tsc -b && vite build",
+    "build:pages": "npm run build && node scripts/prepare-pages.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test:e2e": "playwright test"

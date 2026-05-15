@@ -18,6 +18,7 @@ import { ContactForm } from './components/ContactForm'
 import { Navbar } from './components/Navbar'
 import { Reveal } from './components/Reveal'
 import { StickyCTA } from './components/StickyCTA'
+import { OmnichannelFrankfurtPage } from './OmnichannelFrankfurtPage'
 import {
   benefits,
   checklist,
@@ -36,6 +37,12 @@ import {
 } from './content'
 
 function App() {
+  const currentPath = window.location.pathname.replace(/\/+$/, '')
+
+  if (currentPath.endsWith('/omnichannel-kundenservice-frankfurt')) {
+    return <OmnichannelFrankfurtPage />
+  }
+
   return (
     <div id="top" className="min-h-screen bg-fog text-ink">
       <Navbar />

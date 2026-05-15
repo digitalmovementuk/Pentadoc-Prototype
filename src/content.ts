@@ -264,6 +264,7 @@ export const checklist = [
 ]
 
 export const contactTopics = [
+  'Omnichannel Kundenservice',
   'Anliegenmanagement',
   'Input Management',
   'Customer Communication Management',

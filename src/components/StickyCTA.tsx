@@ -27,7 +27,7 @@ export function StickyCTA() {
       aria-hidden={!visible}
       data-testid="sticky-cta"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="sticky-cta-panel">
         <div className="hidden min-w-0 md:block">
           <p className="text-sm font-semibold leading-5 text-white">Bereit für eine klare Transformationsentscheidung?</p>
           <p className="text-xs leading-5 text-white/[0.72]">Kurze Anfrage senden oder direkt anrufen.</p>

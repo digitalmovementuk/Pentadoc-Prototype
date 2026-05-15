@@ -33,3 +33,26 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
 </svg>`
 
 await sharp(Buffer.from(ogSvg)).png().toFile('public/og-image.png')
+
+const omnichannelOgSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#141414"/>
+  <rect x="62" y="62" width="1076" height="506" rx="24" fill="#f6f5f1"/>
+  <rect x="62" y="62" width="1076" height="96" rx="24" fill="#ffcc00"/>
+  <text x="108" y="124" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#141414">Pentadoc AG</text>
+  <text x="108" y="245" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="700" fill="#141414">Omnichannel Kundenservice</text>
+  <text x="108" y="312" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="700" fill="#141414">Frankfurt</text>
+  <text x="108" y="394" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500" fill="#626269">Beratung für Versicherer, Krankenkassen und</text>
+  <text x="108" y="434" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500" fill="#626269">dokumentennahe Kundenservice-Prozesse.</text>
+  <rect x="108" y="486" width="338" height="58" rx="8" fill="#141414"/>
+  <text x="135" y="524" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffcc00">Suchterm SEO GEO Page</text>
+  <circle cx="950" cy="310" r="124" fill="#141414"/>
+  <circle cx="950" cy="310" r="72" fill="#ffcc00"/>
+  <circle cx="816" cy="214" r="44" fill="#ffffff" stroke="#141414" stroke-width="8"/>
+  <circle cx="1082" cy="214" r="44" fill="#ffffff" stroke="#141414" stroke-width="8"/>
+  <circle cx="816" cy="430" r="44" fill="#ffffff" stroke="#141414" stroke-width="8"/>
+  <circle cx="1082" cy="430" r="44" fill="#ffffff" stroke="#141414" stroke-width="8"/>
+  <path d="M847 238l54 40M1051 238l-54 40M847 406l54-40M1051 406l-54-40" stroke="#141414" stroke-width="12" stroke-linecap="round"/>
+  <text x="900" y="322" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#141414">FFM</text>
+</svg>`
+
+await sharp(Buffer.from(omnichannelOgSvg)).png().toFile('public/og-omnichannel-frankfurt.png')
