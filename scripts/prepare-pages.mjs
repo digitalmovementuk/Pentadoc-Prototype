@@ -324,6 +324,8 @@ function optimizeSeoPage(html, page) {
 
 const source = await readFile(rootIndex, 'utf8')
 
+await writeFile(join(distDir, '.nojekyll'), '')
+
 for (const page of pages) {
   const target = join(distDir, page.slug, 'index.html')
   const html = updateMeta(source, page)

@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Workflow,
 } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useEffect } from 'react'
 import logo from './assets/images/pentadoc-logo-small.webp'
 import omnichannelImage from './assets/images/omnichannel.webp'
@@ -28,6 +29,13 @@ const pageTitle = 'Omnichannel Kundenservice Frankfurt | Pentadoc AG'
 const pageDescription =
   'Omnichannel Kundenservice Beratung in Frankfurt für Versicherer und Krankenkassen: Kanäle, Anliegen, Prozesse, CCM, Input Management und IT-Roadmap sauber verbinden.'
 const pageImage = 'https://digitalmovementuk.github.io/Pentadoc-Prototype/og-omnichannel-frankfurt.png'
+
+type PresentationMarkerProps = {
+  number: string
+  title: string
+  text: string
+  tone?: 'light' | 'dark'
+}
 
 const readinessCards = [
   {
@@ -271,6 +279,25 @@ function OmnichannelMap() {
   )
 }
 
+function PresentationMarker({ number, title, text, tone = 'light' }: PresentationMarkerProps) {
+  const reduceMotion = useReducedMotion()
+
+  return (
+    <motion.aside
+      className={`presentation-marker ${tone === 'dark' ? 'presentation-marker-dark' : ''}`}
+      initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.98 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: false, amount: 0.54 }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      aria-label={`Präsentationsmarker ${number}`}
+    >
+      <span>Präsentationsmarker {number}</span>
+      <h3>{title}</h3>
+      <p>{text}</p>
+    </motion.aside>
+  )
+}
+
 export function OmnichannelFrankfurtPage() {
   useEffect(() => {
     document.title = pageTitle
@@ -399,6 +426,11 @@ export function OmnichannelFrankfurtPage() {
                 Der Einstieg beantwortet die wichtigste Käuferfrage zuerst und führt danach in klare
                 Entscheidungs-, Prozess- und IT-Themen für einen Omnichannel-Fahrplan.
               </p>
+              <PresentationMarker
+                number="01"
+                title="Suchintention sofort sichtbar"
+                text="Keyword, Ort, Zielgruppe und Service sind im ersten View erkennbar. Das macht die Seite für Käufer, Google und AI Search direkt einordenbar."
+              />
             </Reveal>
           </div>
         </section>
@@ -425,6 +457,11 @@ export function OmnichannelFrankfurtPage() {
               <h2 id="intent-title" className="section-title">
                 Was hinter dem Suchbegriff wirklich geklärt werden muss.
               </h2>
+              <PresentationMarker
+                number="02"
+                title="Intent Layer vor der langen Copy"
+                text="Die Seite erklärt zuerst die Suchabsicht: Was sucht der Entscheider, welche Frage steckt dahinter und warum ist das Thema kaufnah?"
+              />
             </Reveal>
             <div className="intent-grid">
               {intentCards.map((card) => (
@@ -461,6 +498,11 @@ export function OmnichannelFrankfurtPage() {
                   </div>
                 ))}
               </div>
+              <PresentationMarker
+                number="03"
+                title="Fachlicher Kontext statt Keyword-Fülltext"
+                text="Die Copy verbindet Omnichannel mit Anliegenmanagement, Input Management, CCM und IT-Strategie. Das zeigt fachliche Tiefe statt nur wiederholte Suchbegriffe."
+              />
             </Reveal>
             <div className="grid gap-4">
               {painPoints.map((item, index) => (
@@ -500,6 +542,11 @@ export function OmnichannelFrankfurtPage() {
                     Kundenanliegen, klare Zuständigkeiten, anschlussfähige IT und eine realistische Roadmap.
                   </p>
                 </div>
+                <PresentationMarker
+                  number="04"
+                  title="Answer-first für AI Search"
+                  text="Die direkte Antwort steht vor den Detailabschnitten. So kann die Seite in KI-Antworten, Snippets und Verkaufsgesprächen schnell zitiert werden."
+                />
                 {seoSections.map((section) => (
                   <section key={section.title}>
                     <p className="section-kicker text-brand-grey">{section.kicker}</p>
@@ -548,6 +595,11 @@ export function OmnichannelFrankfurtPage() {
               <h2 id="question-cluster-title" className="section-title">
                 Die Seite deckt Strategie, Betrieb und Technik in einer klaren Fragearchitektur ab.
               </h2>
+              <PresentationMarker
+                number="05"
+                title="Buyer-Fragen als Seitenstruktur"
+                text="Die Fragen spiegeln echte Entscheidungswege: Strategie, operativer Betrieb und technische Machbarkeit. Das ist hilfreich für Suchmaschinen und für Käufer."
+              />
             </Reveal>
             <div className="question-grid">
               {questionClusters.map((cluster) => (
@@ -595,6 +647,12 @@ export function OmnichannelFrankfurtPage() {
                   <span>Roadmap für Systeme, Rollen, Migration und Steuerung ableiten</span>
                 </li>
               </ul>
+              <PresentationMarker
+                number="06"
+                title="Entity Mapping sichtbar gemacht"
+                text="Kanäle, Anliegen, Kommunikation und Betrieb werden als zusammenhängendes System gezeigt. Das stärkt die thematische Autorität der Seite."
+                tone="dark"
+              />
             </Reveal>
             <Reveal delay={0.08}>
               <OmnichannelMap />
@@ -684,6 +742,11 @@ export function OmnichannelFrankfurtPage() {
               <h2 id="faq-title" className="section-title">
                 Häufige Fragen zu Omnichannel Kundenservice Frankfurt.
               </h2>
+              <PresentationMarker
+                number="07"
+                title="FAQ für Long-Tail- und AI-Fragen"
+                text="Die FAQ beantwortet konkrete Folgefragen. Genau solche präzisen Fragen werden in Google, ChatGPT, Perplexity und Gemini gestellt."
+              />
             </Reveal>
             <div className="faq-list">
               {faqItems.map((item) => (
@@ -711,6 +774,12 @@ export function OmnichannelFrankfurtPage() {
                 Daraus lässt sich ein erster fachlicher Zuschnitt für Omnichannel, Anliegenmanagement
                 oder Customer Communication Management ableiten.
               </p>
+              <PresentationMarker
+                number="08"
+                title="Kommerzielle Suchseite mit klarem nächsten Schritt"
+                text="Die Seite bleibt informativ, führt aber sauber zur Anfrage. Das macht sie für organische Suche und Leadgenerierung gleichzeitig nutzbar."
+                tone="dark"
+              />
               <div className="mt-8 grid gap-3 rounded-lg border border-white/[0.12] bg-white/[0.08] p-5">
                 <a className="flex min-h-11 items-center gap-3 font-semibold text-white" href="tel:+4993126079110">
                   <Phone className="h-5 w-5 text-brand-yellow" aria-hidden="true" />

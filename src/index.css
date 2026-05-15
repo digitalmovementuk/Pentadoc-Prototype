@@ -226,6 +226,43 @@
     @apply mt-4 text-sm leading-6 text-graphite;
   }
 
+  .presentation-marker {
+    @apply relative mt-6 overflow-hidden rounded-lg border border-brand-yellow/60 bg-brand-soft p-4 text-left shadow-sm;
+  }
+
+  .presentation-marker::before {
+    content: "";
+    @apply absolute left-0 top-0 h-full w-1 bg-brand-yellow;
+  }
+
+  .presentation-marker span {
+    @apply block text-xs font-bold uppercase leading-5 text-brand-grey;
+  }
+
+  .presentation-marker h3 {
+    @apply mt-2 text-lg font-semibold leading-6 text-ink;
+  }
+
+  .presentation-marker p {
+    @apply mt-2 text-sm leading-6 text-graphite;
+  }
+
+  .presentation-marker-dark {
+    @apply border-brand-yellow/45 bg-brand-yellow/[0.12] shadow-none;
+  }
+
+  .presentation-marker-dark span {
+    @apply text-brand-yellow;
+  }
+
+  .presentation-marker-dark h3 {
+    @apply text-white;
+  }
+
+  .presentation-marker-dark p {
+    @apply text-white/[0.78];
+  }
+
   .hero-copy {
     @apply mx-auto max-w-3xl text-center lg:mx-0 lg:text-left;
   }
